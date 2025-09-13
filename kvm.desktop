@@ -1,0 +1,7 @@
+#/usr/share/xsessions/kvm.desktop
+[Desktop Entry]
+Name=KVM Session
+Comment=macOS KVM with X11 only
+Exec=/usr/local/bin/kvm-wrapper.sh
+Type=Application
+DesktopNames=KVM
