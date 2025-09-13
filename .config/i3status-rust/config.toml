@@ -20,6 +20,7 @@ format = "$layout"
 
 [[block]]
 block = "sound"
+
 [[block.click]]
 button = "left"
 cmd = "pavucontrol"

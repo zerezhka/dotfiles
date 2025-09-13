@@ -192,3 +192,32 @@ hide_edge_borders both
 ## lang switch from chatGPT
 #exec --no-startup-id setxkbmap -layout us,ru -option grp:alt_shift_toggle
 exec --no-startup-id sh -c 'sleep 3 && setxkbmap -layout us,ru -option grp:alt_shift_toggle'
+
+# [Block] on screen display
+exec --no-startup-id dunst
+# Brightness up
+#bindsym XF86MonBrightnessUp exec brightnessctl set +10% && notify-send "Brightness: $(brightnessctl get | awk '{print int($1*100/255)}')%"
+# Brightness down
+#bindsym XF86MonBrightnessDown exec brightnessctl set 10%- && notify-send "Brightness: $(brightnessctl get | awk '{print int($1*100/255)}')%"
+
+#bindsym XF86MonBrightnessUp exec brightnessctl set +10% && \
+#dunstify -r 9999 "Brightness: $(brightnessctl get)/$(brightnessctl max)*100 | bc -l | xargs printf '%.0f%%')"
+
+#bindsym XF86AudioRaiseVolume exec pamixer -i 5 && \
+#dunstify -r 9998 "Volume: $(pamixer --get-volume)%"
+
+#bindsym XF86MonBrightnessUp exec --no-startup-id ~/bin/brightness-osd +10%
+#bindsym XF86MonBrightnessDown exec --no-startup-id ~/bin/brightness-osd 10%-
+
+
+#bindsym XF86AudioRaiseVolume exec pamixer -i 5
+#bindsym XF86AudioLowerVolume exec pamixer -d 5
+#bindsym XF86AudioMute exec pamixer -t
+# Brightness
+bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/scripts/show_notification.sh brightness +10%
+bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/scripts/show_notification.sh brightness 10%-
+
+# Volume
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/scripts/show_notification.sh volume +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/scripts/show_notification.sh volume -5%
+bindsym XF86AudioMute exec --no-startup-id ~/.config/i3/scripts/show_notification.sh volume --toggle
