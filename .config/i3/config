@@ -5,6 +5,10 @@
 # this file and re-run i3-config-wizard(1).
 #
 
+# background
+exec --no-startup-id feh --bg-fill /usr/share/backgrounds/xfce/red_moon_penger.jpg
+#exec --no-startup-id xsetroot -cursor_name left_ptr
+
 # i3 config file (v4)
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
@@ -168,11 +172,13 @@ bar {
     position top
     tray_output primary
     font pango:Iosevka Nerd Font 14
+    colors {
+        background #073642
+    }
 }
 
 #keyboard layout
-exec "setxkbmap -layout us,ru_RU"
-exec "setxkbmap -option 'grp:alt_shift_toggle'"
+exec --no-startup-id setxkbmap -layout us,ru -option grp:alt_shift_toggle
 
 #xfce4-panel instead of i3bar
 #exec --no-startup-id xfce4-panel --disable-wm-check
@@ -184,6 +190,7 @@ exec "setxkbmap -option 'grp:alt_shift_toggle'"
 #bindsym $mod+b exec "boomer"
 #bindsym $mod+Shift+l exec "i3lock"
 bindsym $mod+Shift+l exec "light-locker-command -l"
+exec --no-startup-id light-locker --lock-after-screensaver=0 --lock-on-suspend
 
 focus_follows_mouse no
 
@@ -195,24 +202,7 @@ exec --no-startup-id sh -c 'sleep 3 && setxkbmap -layout us,ru -option grp:alt_s
 
 # [Block] on screen display
 exec --no-startup-id dunst
-# Brightness up
-#bindsym XF86MonBrightnessUp exec brightnessctl set +10% && notify-send "Brightness: $(brightnessctl get | awk '{print int($1*100/255)}')%"
-# Brightness down
-#bindsym XF86MonBrightnessDown exec brightnessctl set 10%- && notify-send "Brightness: $(brightnessctl get | awk '{print int($1*100/255)}')%"
 
-#bindsym XF86MonBrightnessUp exec brightnessctl set +10% && \
-#dunstify -r 9999 "Brightness: $(brightnessctl get)/$(brightnessctl max)*100 | bc -l | xargs printf '%.0f%%')"
-
-#bindsym XF86AudioRaiseVolume exec pamixer -i 5 && \
-#dunstify -r 9998 "Volume: $(pamixer --get-volume)%"
-
-#bindsym XF86MonBrightnessUp exec --no-startup-id ~/bin/brightness-osd +10%
-#bindsym XF86MonBrightnessDown exec --no-startup-id ~/bin/brightness-osd 10%-
-
-
-#bindsym XF86AudioRaiseVolume exec pamixer -i 5
-#bindsym XF86AudioLowerVolume exec pamixer -d 5
-#bindsym XF86AudioMute exec pamixer -t
 # Brightness
 bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/scripts/show_notification.sh brightness +10%
 bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/scripts/show_notification.sh brightness 10%-

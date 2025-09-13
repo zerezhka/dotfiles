@@ -41,7 +41,7 @@ interval = 5
 [[block.click]]
 button = "right"
 #cmd = "notify-send --expire-time=3000 'Wi-Fi Status' 'SSID: $ssid\nStatus: $icon\nUp: $speed_up\nDown: $speed_down'"
-cmd = "~/.config/i3/scripts/show-network-notification.sh"
+cmd = "~/.config/i3/scripts/show_notification.sh wifi"
 [[block.click]]
 button="left"
 cmd = "nm-connection-editor"
