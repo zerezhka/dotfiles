@@ -1,0 +1,5 @@
+# Fast xdg-open configuration for i3
+export BROWSER=chromium
+export PATH="$HOME/.local/bin:$PATH"
+export XDG_CURRENT_DESKTOP=i3
+export DESKTOP_SESSION=i3

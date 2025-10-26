@@ -1,0 +1,11 @@
+# Fix slow xdg-open issue
+export BROWSER=chromium
+export PATH=$HOME/.cargo/bin:$HOME/bin:$HOME/.local/bin:/usr/local/bin:$GOPATH/bin:$PATH
+
+# Ensure GUI apps use our custom xdg-open
+export XDG_CURRENT_DESKTOP=i3
+export DESKTOP_SESSION=i3
+
+# Force GUI apps to use our PATH
+export XDG_CONFIG_DIRS="$HOME/.local/share:$XDG_CONFIG_DIRS"
+export XDG_DATA_DIRS="$HOME/.local/share:$XDG_DATA_DIRS"
