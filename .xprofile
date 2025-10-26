@@ -9,3 +9,6 @@ export DESKTOP_SESSION=i3
 # Force GUI apps to use our PATH
 export XDG_CONFIG_DIRS="$HOME/.local/share:$XDG_CONFIG_DIRS"
 export XDG_DATA_DIRS="$HOME/.local/share:$XDG_DATA_DIRS"
+
+# Permanent keyboard layout fix - prevents breaking after Linux upgrades
+setxkbmap -layout us,ru -option grp:alt_shift_toggle

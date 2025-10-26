@@ -180,8 +180,9 @@ bar {
     }
 }
 
-#keyboard layout
+# keyboard layout - permanent fix to prevent breaking after upgrades
 exec --no-startup-id setxkbmap -layout us,ru -option grp:alt_shift_toggle
+exec --no-startup-id sh -c 'sleep 2 && setxkbmap -layout us,ru -option grp:alt_shift_toggle'
 
 #xfce4-panel instead of i3bar
 #exec --no-startup-id xfce4-panel --disable-wm-check

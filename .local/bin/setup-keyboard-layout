@@ -1,0 +1,14 @@
+#!/bin/bash
+# Enable keyboard layout systemd service to prevent breaking after upgrades
+
+# Enable the user service
+systemctl --user enable keyboard-layout.service
+
+# Start the service
+systemctl --user start keyboard-layout.service
+
+# Check status
+systemctl --user status keyboard-layout.service
+
+echo "Keyboard layout service enabled and started!"
+echo "This will prevent keyboard layout from breaking after Linux upgrades."
