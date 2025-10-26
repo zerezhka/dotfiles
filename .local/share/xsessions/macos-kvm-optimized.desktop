@@ -1,0 +1,13 @@
+# Location: ~/.local/share/xsessions/macos-kvm-optimized.desktop
+# Purpose: Optimized macOS KVM session option in LightDM login screen
+# Usage: Select "macOS KVM (Optimized)" from desktop environment dropdown
+# Features: Performance optimizations, auto-fullscreen, pure X11
+
+[Desktop Entry]
+Name=macOS KVM (Optimized)
+Comment=macOS KVM with performance optimizations and fullscreen
+Exec=/home/acer/.local/bin/macos-kvm-optimized.sh
+Type=Application
+X-LightDM-DesktopName=macos-kvm-optimized
+DesktopNames=macos-kvm-optimized
+Keywords=kvm;macos;virtualization;fullscreen;

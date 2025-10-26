@@ -1,0 +1,13 @@
+# Location: ~/.local/share/xsessions/i3-custom.desktop
+# Purpose: Custom i3 session option in LightDM login screen
+# Usage: Select "i3 with Custom Config" from desktop environment dropdown
+
+[Desktop Entry]
+Name=i3 with Custom Config
+Comment=i3 with custom dotfiles configuration
+Exec=i3 -c ~/.config/i3/config
+TryExec=i3
+Type=Application
+X-LightDM-DesktopName=i3-custom
+DesktopNames=i3-custom
+Keywords=tiling;wm;windowmanager;window;manager;custom;
