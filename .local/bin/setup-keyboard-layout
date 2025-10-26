@@ -1,5 +1,27 @@
 #!/bin/bash
 # Enable keyboard layout systemd service to prevent breaking after upgrades
+# Only runs when i3 is the current desktop environment
+
+echo "Setting up keyboard layout service for i3..."
+
+# Check if we're in i3 environment
+if [ "$XDG_CURRENT_DESKTOP" != "i3" ] && [ "$DESKTOP_SESSION" != "i3" ]; then
+    echo "Warning: Not running in i3 environment. This service is designed for i3."
+    echo "Current desktop: $XDG_CURRENT_DESKTOP"
+    echo "Current session: $DESKTOP_SESSION"
+    read -p "Continue anyway? (y/N): " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Aborted."
+        exit 1
+    fi
+fi
+
+# Copy service file to systemd directory
+cp ~/.config/systemd/user/keyboard-layout.service ~/.config/systemd/user/ 2>/dev/null || echo "Service file already exists"
+
+# Reload systemd
+systemctl --user daemon-reload
 
 # Enable the user service
 systemctl --user enable keyboard-layout.service
@@ -8,7 +30,10 @@ systemctl --user enable keyboard-layout.service
 systemctl --user start keyboard-layout.service
 
 # Check status
-systemctl --user status keyboard-layout.service
+echo "Service status:"
+systemctl --user status keyboard-layout.service --no-pager
 
-echo "Keyboard layout service enabled and started!"
+echo ""
+echo "✅ Keyboard layout service enabled and started!"
 echo "This will prevent keyboard layout from breaking after Linux upgrades."
+echo "The service only runs when i3 is the active desktop environment."

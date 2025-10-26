@@ -1,6 +1,7 @@
 [Unit]
 Description=Set keyboard layout for i3
 After=graphical-session.target
+ConditionEnvironment=XDG_CURRENT_DESKTOP=i3
 
 [Service]
 Type=oneshot
