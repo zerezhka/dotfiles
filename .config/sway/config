@@ -20,6 +20,7 @@ input "1739:52543:SYNA7DA1:00_06CB:CD3F_Touchpad" {
     click_method button_areas
     scroll_method two_finger
     middle_emulation disabled
+    drag_lock disabled
 }
 
 exec_always swaybg -m fill -i /usr/share/backgrounds/xfce/red_moon_penger.jpg
