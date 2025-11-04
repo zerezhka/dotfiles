@@ -1,4 +1,5 @@
 aircrack-ng
+alacritty
 appstream-glib
 base
 base-devel
@@ -26,7 +27,6 @@ garcon
 git
 gparted
 grub
-gtk-engine-murrine
 gvfs
 gvfs-smb
 htop
@@ -82,6 +82,7 @@ sshfs
 steam
 sudo
 sway
+swaybg
 telegram-desktop
 tex-gyre-fonts
 thunar
@@ -99,6 +100,7 @@ vlc
 vulkan-tools
 wget
 wine
+wl-clipboard
 woff2-font-awesome
 wpa_supplicant
 xdotool

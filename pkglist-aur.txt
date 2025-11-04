@@ -53,10 +53,10 @@ grub-theme-whitesur-white-4k-git
 grub-theme-whitesur-whitesur-1080p-git
 grub-theme-whitesur-whitesur-2k-git
 grub-theme-whitesur-whitesur-4k-git
+gtk-engine-murrine
 i3-swallow-git
 jetbrains-fleet
 mediawriter
-nekoray
 neofetch
 parsec-bin
 portproton
