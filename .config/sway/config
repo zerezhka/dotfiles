@@ -1,0 +1,142 @@
+set $mod Mod4
+
+font pango:Iosevka 10
+
+floating_modifier $mod
+
+seat seat0 xcursor_theme default
+
+input type:keyboard {
+    xkb_layout us,ru
+    xkb_options grp:alt_shift_toggle
+}
+
+input "1739:52543:SYNA7DA1:00_06CB:CD3F_Touchpad" {
+    tap enabled
+    tap_button_map lrm
+    natural_scroll enabled
+    dwt enabled
+    dwtp enabled
+    click_method button_areas
+    scroll_method two_finger
+    middle_emulation disabled
+}
+
+exec_always swaybg -m fill -i /usr/share/backgrounds/xfce/red_moon_penger.jpg
+
+bindsym $mod+Return exec alacritty
+
+bindsym --to-code $mod+Shift+q kill
+
+bindsym --to-code $mod+d exec i3-dmenu-desktop
+
+bindsym --to-code $mod+j focus left
+bindsym --to-code $mod+k focus down
+bindsym --to-code $mod+l focus up
+bindsym --to-code $mod+semicolon focus right
+
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym --to-code $mod+Shift+j move left
+bindsym --to-code $mod+Shift+k move down
+bindsym --to-code $mod+Shift+l move up
+bindsym --to-code $mod+Shift+semicolon move right
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+bindsym --to-code $mod+h split h
+
+bindsym --to-code $mod+v split v
+
+bindsym --to-code $mod+f fullscreen toggle
+
+bindsym --to-code $mod+w layout tabbed
+bindsym --to-code $mod+e layout toggle split
+
+bindsym $mod+Shift+space floating toggle
+
+bindsym $mod+space focus mode_toggle
+
+bindsym --to-code $mod+a focus parent
+
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+bindsym --to-code $mod+Shift+c reload
+
+bindsym --to-code $mod+Shift+r reload
+
+bindsym --to-code $mod+Shift+e exec "~/.config/sway/scripts/dmenu-logout.sh"
+
+mode "resize" {
+    bindsym --to-code j resize shrink width 10 px or 10 ppt
+    bindsym --to-code k resize grow height 10 px or 10 ppt
+    bindsym --to-code l resize shrink height 10 px or 10 ppt
+    bindsym --to-code semicolon resize grow width 10 px or 10 ppt
+
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym --to-code $mod+r mode "resize"
+
+bar {
+    status_command i3status-rs ~/.config/i3status-rust/config-sway.toml
+    position top
+    tray_output primary
+    font pango:Iosevka Nerd Font 14
+    colors {
+        background #073642
+    }
+}
+
+# не работает, конфликтует с каким-то встроенным биндингом sway
+#bindsym $mod+Shift+l exec swaylock
+
+exec swayidle -w timeout 300 swaylock timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' before-sleep swaylock
+
+focus_follows_mouse no
+
+hide_edge_borders both
+
+exec sh -c 'export BROWSER=chromium && export PATH="$HOME/.local/bin:$PATH" && export XDG_CURRENT_DESKTOP=sway && export DESKTOP_SESSION=sway && export WLR_RENDERER=vulkan && export MOZ_ENABLE_WAYLAND=1 && export QT_QPA_PLATFORM=wayland && export LIBINPUT_TAP_DRAG=0 && export LIBINPUT_TAP_DRAG_LOCK=0 && export ELECTRON_OZONE_PLATFORM_HINT=wayland && export XDG_SESSION_TYPE=wayland && export ELECTRON_ENABLE_OZONE=1 && export LIBINPUT_DISABLE_TAP_DRAG=1'
+
+exec dunst
+
+bindsym XF86MonBrightnessUp exec ~/.config/sway/scripts/show_notification.sh brightness +10%
+bindsym XF86MonBrightnessDown exec ~/.config/sway/scripts/show_notification.sh brightness 10%-
+
+bindsym XF86AudioRaiseVolume exec ~/.config/sway/scripts/show_notification.sh volume +5%
+bindsym XF86AudioLowerVolume exec ~/.config/sway/scripts/show_notification.sh volume -5%
+bindsym XF86AudioMute exec ~/.config/sway/scripts/show_notification.sh volume --toggle
+

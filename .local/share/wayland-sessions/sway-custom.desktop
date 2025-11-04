@@ -1,0 +1,13 @@
+# Location: ~/.local/share/wayland-sessions/sway-custom.desktop
+# Purpose: Custom Sway session option in LightDM login screen
+# Usage: Select "Sway with Custom Config" from desktop environment dropdown
+
+[Desktop Entry]
+Name=Sway with Custom Config
+Comment=Sway with custom dotfiles configuration
+Exec=sway -c ~/.config/sway/config
+TryExec=sway
+Type=Application
+DesktopNames=sway-custom
+Keywords=tiling;wm;windowmanager;window;manager;wayland;sway;custom;
+
