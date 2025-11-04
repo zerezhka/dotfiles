@@ -41,7 +41,7 @@ button = "right"
 cmd = "~/.config/sway/scripts/show_notification.sh wifi"
 [[block.click]]
 button="left"
-cmd = "nm-connection-editor"
+cmd = "~/.config/sway/scripts/network_manager.sh"
 
 [[block]]
 block = "battery"
