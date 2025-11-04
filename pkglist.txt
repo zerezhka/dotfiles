@@ -26,6 +26,7 @@ fuse-overlayfs
 garcon
 git
 gparted
+grim
 grub
 gvfs
 gvfs-smb
@@ -79,6 +80,7 @@ rust
 samba
 sassc
 sshfs
+slurp
 steam
 sudo
 sway
