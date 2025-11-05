@@ -45,6 +45,16 @@ echo "Installing GRUB as bootmgfw.efi..."
 cp -v "${GRUB_EFI}" "${BOOT_DIR}/bootmgfw.efi"
 
 echo ""
+echo "Copying memtest86+ to eMMC..."
+if [ -f /boot/memtest86+/memtest.efi ]; then
+    mkdir -p "${EMMC_EFI}/memtest86+"
+    cp -v /boot/memtest86+/memtest.efi "${EMMC_EFI}/memtest86+/memtest.efi"
+    echo "✓ memtest86+ installed"
+else
+    echo "⚠ memtest86+ not found on SSD, skipping..."
+fi
+
+echo ""
 echo "Syncing filesystems..."
 sync
 
@@ -52,11 +62,12 @@ echo ""
 echo "Installation complete!"
 echo ""
 echo "Your boot menu will now show:"
-echo "  1. SSD GRUB - chainloads to your full GRUB on SSD"
+echo "  1. SSD GRUB - chainloads to your full GRUB on SSD (auto-boots if SSD present)"
 echo "  2. Windows 10 - boots Windows from bootmgfw_original.efi"
-echo "  3. UEFI Firmware Settings"
-echo "  4. Reboot"
-echo "  5. Shutdown"
+echo "  3. Memory Tester (memtest86+) - works from eMMC or SSD"
+echo "  4. UEFI Firmware Settings"
+echo "  5. Reboot"
+echo "  6. Shutdown"
 echo ""
 echo "The SSD GRUB option will fail gracefully if SSD is removed."
 echo "You can remove/reinstall the SSD at any time."
