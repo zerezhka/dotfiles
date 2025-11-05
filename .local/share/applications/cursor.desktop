@@ -2,7 +2,7 @@
 Name=Cursor
 Comment=The AI Code Editor.
 GenericName=Text Editor
-Exec=env ELECTRON_OZONE_PLATFORM_HINT=wayland XDG_SESSION_TYPE=wayland /usr/share/cursor/cursor --enable-features=UseOzonePlatform --ozone-platform=wayland %F
+Exec=/usr/share/cursor/cursor --enable-features=UseOzonePlatform --ozone-platform=wayland %F
 Icon=co.anysphere.cursor
 Type=Application
 StartupNotify=false
@@ -24,6 +24,5 @@ Name[ko]=새 빈 창
 Name[ru]=Новое пустое окно
 Name[zh_CN]=新建空窗口
 Name[zh_TW]=開新空視窗
-Exec=env ELECTRON_OZONE_PLATFORM_HINT=wayland XDG_SESSION_TYPE=wayland /usr/share/cursor/cursor --enable-features=UseOzonePlatform --ozone-platform=wayland --new-window %F
+Exec=/usr/share/cursor/cursor --enable-features=UseOzonePlatform --ozone-platform=wayland --new-window %F
 Icon=co.anysphere.cursor
-

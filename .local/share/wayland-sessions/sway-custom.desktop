@@ -5,9 +5,8 @@
 [Desktop Entry]
 Name=Sway with Custom Config
 Comment=Sway with custom dotfiles configuration
-Exec=sway -c ~/.config/sway/config
+Exec=env ELECTRON_OZONE_PLATFORM_HINT=wayland XDG_SESSION_TYPE=wayland sway -c ~/.config/sway/config
 TryExec=sway
 Type=Application
 DesktopNames=sway-custom
 Keywords=tiling;wm;windowmanager;window;manager;wayland;sway;custom;
-
