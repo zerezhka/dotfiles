@@ -85,6 +85,7 @@ steam
 sudo
 sway
 swaybg
+swaylock
 telegram-desktop
 tex-gyre-fonts
 thunar
