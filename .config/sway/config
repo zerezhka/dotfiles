@@ -23,13 +23,17 @@ input "1739:52543:SYNA7DA1:00_06CB:CD3F_Touchpad" {
     drag_lock disabled
 }
 
+# Update systemd and dbus environment for apps launched via systemd or dbus
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+
 exec_always swaybg -m fill -i /usr/share/backgrounds/xfce/red_moon_penger.jpg
 
 bindsym $mod+Return exec alacritty
 
 bindsym --to-code $mod+Shift+q kill
 
-bindsym --to-code $mod+d exec i3-dmenu-desktop
+bindsym --to-code $mod+d exec rofi -show drun
 
 bindsym $mod+Shift+s exec sh -c 'grim -g "$(slurp)" - | wl-copy && notify-send "Screenshot saved to clipboard"'
 
@@ -129,8 +133,6 @@ exec swayidle -w timeout 300 swaylock timeout 600 'swaymsg "output * dpms off"' 
 focus_follows_mouse no
 
 hide_edge_borders both
-
-exec sh -c 'export BROWSER=chromium && export PATH="$HOME/.local/bin:$PATH" && export XDG_CURRENT_DESKTOP=sway && export DESKTOP_SESSION=sway && export WLR_RENDERER=vulkan && export MOZ_ENABLE_WAYLAND=1 && export QT_QPA_PLATFORM=wayland && export LIBINPUT_TAP_DRAG=0 && export LIBINPUT_TAP_DRAG_LOCK=0 && export ELECTRON_OZONE_PLATFORM_HINT=wayland && export XDG_SESSION_TYPE=wayland && export ELECTRON_ENABLE_OZONE=1 && export LIBINPUT_DISABLE_TAP_DRAG=1'
 
 exec dunst
 
