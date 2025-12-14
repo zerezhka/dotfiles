@@ -24,8 +24,8 @@ input "1739:52543:SYNA7DA1:00_06CB:CD3F_Touchpad" {
 }
 
 # Update systemd and dbus environment for apps launched via systemd or dbus
-exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway BROWSER=chromium PATH
+exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP BROWSER PATH
 
 exec_always swaybg -m fill -i /usr/share/backgrounds/xfce/red_moon_penger.jpg
 

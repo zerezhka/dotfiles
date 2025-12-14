@@ -10,8 +10,16 @@ sleep 1
 # Start Telegram with proper environment
 export BROWSER=chromium
 export PATH="$HOME/.local/bin:$PATH"
-export XDG_CURRENT_DESKTOP=i3
-export DESKTOP_SESSION=i3
+
+# Detect session type
+if [ -n "$WAYLAND_DISPLAY" ]; then
+    export XDG_CURRENT_DESKTOP=sway
+    export DESKTOP_SESSION=sway
+    export XDG_SESSION_TYPE=wayland
+else
+    export XDG_CURRENT_DESKTOP=i3
+    export DESKTOP_SESSION=i3
+fi
 
 # Start Telegram in background
 Telegram &
