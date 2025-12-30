@@ -10,12 +10,13 @@ else
     layout_name="EN"
 fi
 
-if [ -f "$state_file" ]; then
-    previous_layout=$(cat "$state_file")
-    if [ "$previous_layout" != "$layout_name" ]; then
-        dunstify -r 8888 -t 1000 "Keyboard Layout" "$layout_name" 2>/dev/null
-    fi
-fi
+# Notifications disabled - uncomment to re-enable
+#if [ -f "$state_file" ]; then
+#    previous_layout=$(cat "$state_file")
+#    if [ "$previous_layout" != "$layout_name" ]; then
+#        dunstify -r 8888 -t 1000 "Keyboard Layout" "$layout_name" 2>/dev/null
+#    fi
+#fi
 
 echo "$layout_name" > "$state_file"
 echo "$current_layout"
