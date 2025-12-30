@@ -55,6 +55,9 @@ cmd = "blueman-manager"
 block = "time"
 interval = 5
 format = " $timestamp.datetime(f:'%a %d %b %R') "
+[[block.click]]
+button = "left"
+cmd = "gsimplecal"
 
 [[block]]
 block = "custom"
