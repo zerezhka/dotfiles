@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Kodi (X11)
+Comment=This session will start Kodi media center on X11
+Exec=kodi-standalone --windowing=x11
+TryExec=kodi-standalone
+Type=Application
+Keywords=audio;video;media;center;tv;movies;series;songs;remote;
+Icon=kodi
