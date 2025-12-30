@@ -11,17 +11,9 @@ input type:keyboard {
     xkb_options grp:alt_shift_toggle
 }
 
-input "1739:52543:SYNA7DA1:00_06CB:CD3F_Touchpad" {
-    tap enabled
-    tap_button_map lrm
-    natural_scroll enabled
-    dwt enabled
-    dwtp enabled
-    click_method button_areas
-    scroll_method two_finger
-    middle_emulation disabled
-    drag_lock disabled
-}
+# Dual monitor setup - side by side
+output HDMI-A-2 mode 1920x1080@60Hz position 0,0
+output HDMI-A-1 mode 1920x1080@60Hz position 1920,0
 
 # Update systemd and dbus environment for apps launched via systemd or dbus
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway BROWSER=chromium PATH
@@ -34,6 +26,9 @@ bindsym $mod+Return exec alacritty
 bindsym --to-code $mod+Shift+q kill
 
 bindsym --to-code $mod+d exec rofi -show drun
+
+# Clipboard history viewer
+bindsym $mod+c exec cliphist list | rofi -dmenu | cliphist decode | wl-copy
 
 bindsym $mod+Shift+s exec sh -c 'grim -g "$(slurp)" - | wl-copy && notify-send "Screenshot saved to clipboard"'
 
@@ -135,6 +130,10 @@ focus_follows_mouse no
 hide_edge_borders both
 
 exec dunst
+
+# Clipboard manager - persist clipboard content
+exec_always sh -c 'pkill -f "wl-paste.*cliphist" 2>/dev/null; wl-paste --type text --watch cliphist store'
+exec_always sh -c 'pkill -f "wl-paste.*cliphist" 2>/dev/null; wl-paste --type image --watch cliphist store'
 
 bindsym XF86MonBrightnessUp exec ~/.config/sway/scripts/show_notification.sh brightness +10%
 bindsym XF86MonBrightnessDown exec ~/.config/sway/scripts/show_notification.sh brightness 10%-
