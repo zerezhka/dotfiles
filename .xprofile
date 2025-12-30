@@ -1,5 +1,5 @@
 # Fix slow xdg-open issue
-export BROWSER=chromium
+export BROWSER=firefox
 export PATH=$HOME/.cargo/bin:$HOME/bin:$HOME/.local/bin:/usr/local/bin:$GOPATH/bin:$PATH
 
 # i3-specific configurations - only apply when running i3
