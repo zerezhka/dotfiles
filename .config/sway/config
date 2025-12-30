@@ -1,6 +1,6 @@
 set $mod Mod4
 
-font pango:Iosevka 10
+font pango:Iosevka 11
 
 floating_modifier $mod
 
@@ -28,10 +28,10 @@ workspace 9 output HDMI-A-1
 workspace 10 output HDMI-A-1
 
 # Update systemd and dbus environment for apps launched via systemd or dbus
-exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway BROWSER=chromium PATH
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway BROWSER=firefox PATH
 exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP BROWSER PATH
 
-exec_always swaybg -m fill -i /usr/share/backgrounds/xfce/red_moon_penger.jpg
+exec_always pkill swaybg; swaybg -m fill -i /usr/share/backgrounds/xfce/red_moon_penger.jpg
 
 bindsym $mod+Return exec alacritty
 
@@ -124,6 +124,17 @@ mode "resize" {
 bindsym --to-code $mod+r mode "resize"
 
 bar {
+    output HDMI-A-2
+    status_command i3status-rs ~/.config/i3status-rust/config-sway.toml
+    position top
+    font pango:Iosevka Nerd Font 14
+    colors {
+        background #073642
+    }
+}
+
+bar {
+    output HDMI-A-1
     status_command i3status-rs ~/.config/i3status-rust/config-sway.toml
     position top
     tray_output primary
@@ -140,6 +151,9 @@ exec swayidle -w timeout 300 swaylock timeout 600 'swaymsg "output * dpms off"' 
 focus_follows_mouse no
 
 hide_edge_borders both
+
+# Position gsimplecal near status bar
+for_window [app_id="gsimplecal"] floating enable, move position cursor, move down 30px
 
 exec dunst
 
