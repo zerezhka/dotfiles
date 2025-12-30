@@ -44,6 +44,14 @@ button="left"
 cmd = "~/.config/sway/scripts/network_manager.sh"
 
 [[block]]
+block = "custom"
+command = "bluetoothctl show | grep -q 'Powered: yes' && echo '\uf293 BT' || echo ''"
+interval = 5
+[[block.click]]
+button = "left"
+cmd = "blueman-manager"
+
+[[block]]
 block = "time"
 interval = 5
 format = " $timestamp.datetime(f:'%a %d %b %R') "
