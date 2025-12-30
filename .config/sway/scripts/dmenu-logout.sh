@@ -2,7 +2,7 @@
 
 OPTIONS=" Shutdown\n Logout\n Reboot\n Lock"
 
-CHOICE=$(echo -e $OPTIONS | dmenu -i -p "Choose action:")
+CHOICE=$(echo -e $OPTIONS | rofi -dmenu -i -p "Choose action:")
 
 case "$CHOICE" in
     " Shutdown")
