@@ -1,17 +1,25 @@
 #!/bin/bash
-# Fast xdg-open replacement for i3
-# Directly opens URLs in chromium without D-Bus overhead
+# Fast xdg-open replacement for i3/Sway
+# Directly opens URLs in default browser without D-Bus overhead
 
 url="$1"
+
+# Get browser: use $BROWSER env var if set, otherwise xdg-settings
+if [ -n "$BROWSER" ]; then
+    browser_cmd="$BROWSER"
+else
+    default_browser=$(xdg-settings get default-web-browser 2>/dev/null)
+    browser_cmd="${default_browser%.desktop}"
+fi
 
 # Handle different URL formats
 case "$url" in
     http://*|https://*|www.*)
-        exec chromium "$url" &
+        exec $browser_cmd "$url" &
         ;;
     *)
         # For non-URLs, fall back to gio but with timeout
-        timeout 2 gio open "$@" 2>/dev/null || exec chromium "$url" &
+        timeout 2 gio open "$@" 2>/dev/null || exec $browser_cmd "$url" &
         ;;
 esac
 
