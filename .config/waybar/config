@@ -1,0 +1,89 @@
+{
+    "layer": "top",
+    "position": "top",
+    "spacing": 4,
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": [],
+    "modules-right": ["custom/launcher", "custom/keyboard-layout", "pulseaudio", "network", "bluetooth", "battery", "clock", "custom/power"],
+
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{name}"
+    },
+
+    "sway/mode": {
+        "format": "{}"
+    },
+
+    "keyboard-state": {
+        "numlock": false,
+        "capslock": false,
+        "format": {
+            "numlock": "N",
+            "capslock": "C"
+        },
+        "rotate": 270
+    },
+
+    "custom/launcher": {
+        "format": "Run>",
+        "on-click": "i3-dmenu-desktop",
+        "tooltip": false
+    },
+
+    "custom/keyboard-layout": {
+        "exec": "~/.config/sway/scripts/get_keyboard_layout.sh",
+        "interval": 1,
+        "format": "{}",
+        "tooltip": false
+    },
+
+    "pulseaudio": {
+        "format": "{icon}",
+        "format-muted": "󰝟",
+        "format-icons": {
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "on-click": "pavucontrol"
+    },
+
+    "network": {
+        "format-wifi": "󰖩",
+        "format-ethernet": "󰈀",
+        "format-disconnected": "󰖪",
+        "tooltip-format": "{essid} ({signalStrength}%)",
+        "on-click": "nm-connection-editor"
+    },
+
+    "bluetooth": {
+        "format": "󰂯",
+        "format-disabled": "󰂲",
+        "format-off": "󰂲",
+        "format-connected": "󰂱",
+        "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+        "on-click": "blueman-manager"
+    },
+
+    "battery": {
+        "format": "{icon}",
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "format-charging": "󰂄",
+        "tooltip-format": "{capacity}% {time}",
+        "rotate": 270
+    },
+
+    "clock": {
+        "format": "{:%H\n%M}",
+        "tooltip-format": "{:%A, %d %B %Y}"
+    },
+
+    "custom/power": {
+        "format": "󰐥",
+        "on-click": "~/.config/sway/scripts/dmenu-logout.sh",
+        "tooltip": false
+    }
+}
