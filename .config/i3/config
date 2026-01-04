@@ -30,7 +30,7 @@ set $mod Mod4
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
 
-font pango:Iosevka 10
+font pango:Iosevka 11
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -42,6 +42,39 @@ font pango:Iosevka 10
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+# Dual monitor setup - side by side
+# Note: X11 output names may differ from Wayland. Check with 'xrandr' and adjust accordingly.
+# Common X11 names: HDMI-1, HDMI-2, DP-1, eDP-1, etc.
+# output HDMI-2 mode 1920x1080@60.00Hz position 0,0
+# output HDMI-1 mode 1920x1080@60.00Hz position 1920,0
+
+# Assign workspaces to monitors
+# Workspaces 1-5 on first monitor, workspaces 6-10 on second monitor
+ workspace 1 output HDMI-1
+ workspace 2 output HDMI-1
+ workspace 3 output HDMI-1
+ workspace 4 output HDMI-1
+ workspace 5 output HDMI-1
+ workspace 6 output HDMI-0
+ workspace 7 output HDMI-0
+ workspace 8 output HDMI-0
+ workspace 9 output HDMI-0
+ workspace 10 output HDMI-0
+
+# Chrome Remote Desktop workspace assignment
+# When Chrome Remote Desktop is active, all workspaces should be on DUMMY0
+# Comment out the physical display assignments above and uncomment these when using CRD
+#workspace 1 output DUMMY0
+#workspace 2 output DUMMY0
+#workspace 3 output DUMMY0
+#workspace 4 output DUMMY0
+#workspace 5 output DUMMY0
+#workspace 6 output DUMMY0
+#workspace 7 output DUMMY0
+#workspace 8 output DUMMY0
+#workspace 9 output DUMMY0
+#workspace 10 output DUMMY0
+
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec alacritty
@@ -49,6 +82,7 @@ bindsym $mod+Return exec alacritty
 # scrot
 #bindsym --release $mod+s exec "scrot -s"
 bindsym $mod+Shift+s exec sh -c 'xfce4-screenshooter -r -c && notify-send "Screenshot saved to clipboard"'
+bindsym Print exec sh -c 'notify-send "Screenshot in 3 seconds..." && sleep 3 && xfce4-screenshooter -f -s /tmp/screenshot.png && notify-send "Screenshot saved to /tmp/screenshot.png"'
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -58,7 +92,7 @@ bindsym $mod+Shift+q kill
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+bindsym $mod+d exec --no-startup-id rofi -show drun
 
 # change focus
 bindsym $mod+j focus left

@@ -7,7 +7,7 @@ icons = "awesome4"
 [[block]]
 block = "custom"
 interval = "once"
-command = "echo ' Run'"
+command = "echo ' Run'"
 hide_when_empty = false
 [[block.click]]
 button = "left"
@@ -17,13 +17,6 @@ cmd = "rofi -show drun"
 block = "keyboard_layout"
 interval = 1
 format = "$layout"
-
-[[block]]
-block = "sound"
-
-[[block.click]]
-button = "left"
-cmd = "pavucontrol"
 
 # Ethernet
 [[block]]
@@ -36,11 +29,10 @@ interval = 5
 [[block]]
 block = "net"
 device = "wlan0"
-format = "  $ssid "
+format = "  $ssid "
 interval = 5
 [[block.click]]
 button = "right"
-#cmd = "notify-send --expire-time=3000 'Wi-Fi Status' 'SSID: $ssid\nStatus: $icon\nUp: $speed_up\nDown: $speed_down'"
 cmd = "~/.config/i3/scripts/show_notification.sh wifi"
 [[block.click]]
 button="left"
@@ -53,7 +45,6 @@ interval = 5
 [[block.click]]
 button = "left"
 cmd = "blueman-manager"
-
 
 [[block]]
 block = "time"
