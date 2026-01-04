@@ -228,8 +228,8 @@ exec --no-startup-id sh -c 'sleep 2 && setxkbmap -layout us,ru -option grp:alt_s
 #bindsym $mod+Shift+w exec "~/bin/map-wacom"
 #bindsym $mod+b exec "boomer"
 #bindsym $mod+Shift+l exec "i3lock"
-bindsym $mod+Shift+l exec "light-locker-command -l"
-exec --no-startup-id light-locker --lock-after-screensaver=0 --lock-on-suspend
+bindsym $mod+Shift+l exec "betterlockscreen -l dim"
+#exec --no-startup-id light-locker --lock-after-screensaver=0 --lock-on-suspend
 
 focus_follows_mouse no
 
