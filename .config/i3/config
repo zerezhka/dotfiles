@@ -173,7 +173,7 @@ bindsym $mod+r mode "resize"
 #}
 bar {
     status_command i3status-rs ~/.config/i3status-rust/config.toml
-    position right
+    position top
     tray_output primary
     font pango:Iosevka Nerd Font 14
     colors {

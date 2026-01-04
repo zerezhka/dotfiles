@@ -1,0 +1,39 @@
+#!/bin/bash
+# Simple ZRAM setup script for low-memory systems
+# Creates a 2GB compressed swap in RAM
+
+set -e
+
+# Check if zram0 is already active
+if swapon --show | grep -q "/dev/zram0"; then
+    echo "ZRAM already active, skipping setup"
+    exit 0
+fi
+
+# Load zram module if not loaded
+modprobe zram 2>/dev/null || true
+
+# Check if already configured
+if [ -e /sys/block/zram0/disksize ]; then
+    CURRENT_SIZE=$(cat /sys/block/zram0/disksize)
+    if [ "$CURRENT_SIZE" != "0" ]; then
+        echo "ZRAM device already configured, enabling swap..."
+        swapon -p 100 /dev/zram0 2>/dev/null || true
+        echo "ZRAM setup complete: 2GB compressed swap active"
+        exit 0
+    fi
+fi
+
+# Set compression algorithm
+echo zstd > /sys/block/zram0/comp_algorithm
+
+# Set size (2GB for 4GB RAM system)
+echo 2G > /sys/block/zram0/disksize
+
+# Create swap
+mkswap /dev/zram0
+
+# Enable with high priority (prefer zram over disk swap)
+swapon -p 100 /dev/zram0
+
+echo "ZRAM setup complete: 2GB compressed swap active"
