@@ -125,8 +125,11 @@ mode "resize" {
 
 bindsym --to-code $mod+r mode "resize"
 
-# Launch waybar
-exec_always ~/.config/sway/scripts/start-waybar.sh
+bar {
+    position top
+    font pango:Iosevka 12
+    status_command i3status-rs ~/.config/i3status-rust/config-sway.toml
+}
 
 bindsym $mod+Shift+l exec swaylock
 
