@@ -31,7 +31,7 @@ workspace 10 output HDMI-A-1
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway BROWSER=firefox PATH
 exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP BROWSER PATH
 
-exec_always pkill swaybg; swaybg -m fill -i /usr/share/backgrounds/xfce/red_moon_penger.jpg
+exec_always sh -c 'pkill swaybg; sleep 0.1; swaybg -m fill -i /usr/share/backgrounds/xfce/red_moon_penger.jpg &'
 
 bindsym $mod+Return exec alacritty
 
@@ -160,9 +160,6 @@ exec dunst
 # Clipboard manager - persist clipboard content
 exec_always sh -c 'pkill -f "wl-paste.*cliphist" 2>/dev/null; wl-paste --type text --watch cliphist store'
 exec_always sh -c 'pkill -f "wl-paste.*cliphist" 2>/dev/null; wl-paste --type image --watch cliphist store'
-
-bindsym XF86MonBrightnessUp exec ~/.config/sway/scripts/show_notification.sh brightness +10%
-bindsym XF86MonBrightnessDown exec ~/.config/sway/scripts/show_notification.sh brightness 10%-
 
 bindsym XF86AudioRaiseVolume exec ~/.config/sway/scripts/show_notification.sh volume +5%
 bindsym XF86AudioLowerVolume exec ~/.config/sway/scripts/show_notification.sh volume -5%

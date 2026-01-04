@@ -6,7 +6,6 @@ base-devel
 blueman
 bluez
 bluez-utils
-brightnessctl
 chromium
 dhcpcd
 dialog
@@ -122,7 +121,6 @@ xf86-video-intel
 xfce4-appfinder
 xfce4-panel
 xfce4-panel-profiles
-xfce4-power-manager
 xfce4-pulseaudio-plugin
 xfce4-screenshooter
 xfce4-session

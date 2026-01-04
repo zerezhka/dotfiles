@@ -208,10 +208,6 @@ exec --no-startup-id sh -c 'sleep 3 && setxkbmap -layout us,ru -option grp:alt_s
 # [Block] on screen display
 exec --no-startup-id dunst
 
-# Brightness
-bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/scripts/show_notification.sh brightness +10%
-bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/scripts/show_notification.sh brightness 10%-
-
 # Volume
 bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/scripts/show_notification.sh volume +5%
 bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/scripts/show_notification.sh volume -5%
