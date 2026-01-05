@@ -1,0 +1,65 @@
+# Swaylock configuration
+# Matching i3 aesthetic with Solarized Dark theme
+
+# Display
+ignore-empty-password
+show-failed-attempts
+daemonize
+
+# Image and colors
+image=/usr/share/backgrounds/xfce/red_moon_penger.jpg
+scaling=fill
+
+# Clock
+clock
+timestr=%H:%M
+datestr=%A, %B %d
+
+# Font
+font=Iosevka
+
+# Colors (Solarized Dark theme)
+color=073642
+
+# Ring colors
+indicator-radius=120
+indicator-thickness=10
+
+# Default state
+ring-color=268bd2
+key-hl-color=859900
+text-color=fdf6e3
+
+# Verifying state (checking password)
+ring-ver-color=2aa198
+text-ver-color=fdf6e3
+inside-ver-color=073642aa
+
+# Wrong password state
+ring-wrong-color=dc322f
+text-wrong-color=fdf6e3
+inside-wrong-color=073642aa
+
+# Clear state
+ring-clear-color=b58900
+text-clear-color=fdf6e3
+inside-clear-color=073642aa
+
+# Default inside
+inside-color=073642aa
+
+# Separator
+separator-color=00000000
+
+# Layout text colors
+layout-text-color=93a1a1
+layout-bg-color=00000000
+
+# Caps Lock warning
+caps-lock-key-hl-color=cb4b16
+caps-lock-bs-hl-color=dc322f
+
+# Effects
+fade-in=0.2
+effect-blur=7x5
+effect-vignette=0.5:0.5

@@ -59,16 +59,22 @@ The repository includes custom screensaver configuration for both i3 and Sway:
 
 **Sway (Wayland)**:
 - Uses `swayidle` with `swaylock` for screen locking
+- Custom swaylock config: `.config/swaylock/config` with Solarized Dark theme
 - Configured in `.config/sway/config:149`:
   - Lock screen after 300 seconds (5 min)
   - DPMS off after 600 seconds (10 min)
   - Locks before system sleep/suspend
+- Features: clock display, blur effect, vignette, matching wallpaper background
 
 To restore on new system:
 ```bash
-# Copy screensaver binary to home directory
+# i3: Copy screensaver binary to home directory
 cp .xscreensaver/flux-desktop ~/.xscreensaver/
 chmod +x ~/.xscreensaver/flux-desktop
+
+# Sway: Copy swaylock config
+mkdir -p ~/.config/swaylock
+cp .config/swaylock/config ~/.config/swaylock/config
 ```
 
 ### Helper Scripts
