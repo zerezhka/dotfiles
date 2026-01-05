@@ -1,0 +1,101 @@
+[global]
+    font = Iosevka Nerd Font 12
+
+    # Follow keyboard focus to active monitor
+    follow = keyboard
+
+    # Position: top-left, top-center, top-right, center-left, center,
+    #           center-right, bottom-left, bottom-center, bottom-right
+    origin = center
+    offset = (0, 0)
+    width = 350
+    height = (0, 300)
+
+    # Show how many messages are currently hidden
+    indicate_hidden = yes
+
+    # Shrink window if smaller than width
+    shrink = yes
+
+    # Visual settings (glassmorphism / liquid glass)
+    frame_width = 1
+    frame_color = "#ffffff30"
+    separator_color = "#ffffff20"
+    separator_height = 1
+    padding = 12
+    horizontal_padding = 16
+    corner_radius = 12
+    transparency = 0
+
+    # Text settings
+    line_height = 0
+    markup = full
+    format = "<b>%s</b> %b"
+    alignment = left
+    vertical_alignment = center
+    show_age_threshold = 60
+    word_wrap = yes
+
+    # Icons
+    icon_position = left
+    min_icon_size = 32
+    max_icon_size = 64
+
+    # History
+    sticky_history = yes
+    history_length = 20
+
+    # Behavior
+    dmenu = /usr/bin/rofi -dmenu -p dunst:
+    browser = /usr/bin/firefox
+
+    # Mouse actions
+    mouse_left_click = close_current
+    mouse_middle_click = do_action, close_current
+    mouse_right_click = close_all
+
+    # Progress bar
+    progress_bar = true
+    progress_bar_height = 10
+    progress_bar_frame_width = 1
+    progress_bar_min_width = 150
+    progress_bar_max_width = 300
+
+# Glassmorphism colors (higher opacity without blur)
+[urgency_low]
+    background = "#1a1a1ad0"
+    foreground = "#fefefe"
+    frame_color = "#ffffff40"
+    timeout = 3
+
+[urgency_normal]
+    background = "#1a1a1ad0"
+    foreground = "#fefefe"
+    frame_color = "#ffffff40"
+    timeout = 5
+
+[urgency_critical]
+    background = "#1a1a1ad0"
+    foreground = "#ff6b6b"
+    frame_color = "#ff6b6b60"
+    timeout = 0
+
+# Stack for centered OSD notifications (volume, brightness, touchpad)
+[osd]
+    appname = Volume
+    stack_tag = osd
+    skip_display = false
+
+[osd_brightness]
+    appname = Brightness
+    stack_tag = osd
+
+[osd_touchpad]
+    appname = Touchpad
+    stack_tag = osd
+
+[osd_keyboard]
+    appname = Keyboard
+    stack_tag = osd
+    timeout = 1
+    format = "<span size='xx-large'><b>%s</b></span>"
