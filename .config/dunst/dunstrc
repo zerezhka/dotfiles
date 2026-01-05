@@ -6,7 +6,7 @@
     origin = center
     offset = (0, 0)
     width = 350
-    height = 300
+    height = (0, 300)
 
     # Show how many messages are currently hidden
     indicate_hidden = yes
@@ -27,7 +27,7 @@
     # Text settings
     line_height = 0
     markup = full
-    format = "<b>%s</b>\n%b"
+    format = "<b>%s</b> %b"
     alignment = left
     vertical_alignment = center
     show_age_threshold = 60
@@ -94,7 +94,5 @@
 [osd_keyboard]
     appname = Keyboard
     stack_tag = osd
-    frame_width = 1
-    frame_color = "#ffffff20"
     timeout = 1
     format = "%s"
