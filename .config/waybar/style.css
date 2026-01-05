@@ -32,19 +32,34 @@ window#waybar {
     color: #fdf6e3;
 }
 
-#keyboard-state,
+#custom-launcher,
+#custom-run,
+#custom-keyboard-layout,
 #pulseaudio,
 #network,
 #bluetooth,
+#power-profiles-daemon,
+#idle_inhibitor,
 #clock,
-#tray {
+#tray,
+#custom-power {
     padding: 8px 5px;
     background-color: #073642;
-    color: #839496;
+    color: #eee8d5;
 }
 
-#keyboard-state {
+#custom-launcher {
+    color: #268bd2;
+    font-size: 16px;
+}
+
+#custom-keyboard-layout {
     font-weight: bold;
+}
+
+#custom-power {
+    color: #dc322f;
+    font-size: 16px;
 }
 
 #pulseaudio.muted {
@@ -61,7 +76,7 @@ window#waybar {
 
 #clock {
     font-weight: bold;
-    color: #268bd2;
+    color: #fdf6e3;
 }
 
 tooltip {

@@ -1,64 +1,88 @@
-{
+[
+  {
     "layer": "top",
     "output": "HDMI-A-1",
-    "position": "right",
-    "width": 50,
-    "modules-left": [],
-    "modules-center": ["sway/workspaces"],
-    "modules-right": [
-        "keyboard-state",
-        "pulseaudio",
-        "network",
-        "bluetooth",
-        "clock",
-        "tray"
-    ],
+    "position": "top",
+    "height": 24,
+    "modules-left": ["sway/workspaces"],
+    "modules-center": [],
+    "modules-right": [],
 
     "sway/workspaces": {
         "disable-scroll": true,
         "all-outputs": false,
         "format": "{name}"
+    }
+  },
+  {
+    "layer": "top",
+    "output": "HDMI-A-1",
+    "position": "right",
+    "width": 50,
+    "modules-left": [],
+    "modules-center": [],
+    "modules-right": [
+        "custom/run",
+        "custom/keyboard-layout",
+        "network#ethernet",
+        "network#wifi",
+        "bluetooth",
+        "pulseaudio",
+        "power-profiles-daemon",
+        "idle_inhibitor",
+        "clock",
+        "tray",
+        "custom/power"
+    ],
+
+    "custom/run": {
+        "format": "Run",
+        "on-click": "~/.config/sway/scripts/launcher-right.sh",
+        "tooltip": false
     },
 
-    "keyboard-state": {
-        "numlock": false,
-        "capslock": false,
-        "format": {
-            "numlock": "",
-            "capslock": ""
-        },
-        "format-icons": {
-            "locked": "US",
-            "unlocked": "RU"
-        }
+    "custom/keyboard-layout": {
+        "exec": "~/.config/sway/scripts/get_keyboard_layout.sh | awk '{print $1}'",
+        "interval": 1,
+        "format": "{}",
+        "tooltip": false
     },
 
     "pulseaudio": {
         "format": "{icon}",
-        "format-muted": "",
+        "format-muted": "󰖁",
         "format-icons": {
-            "default": ["", "", ""]
+            "default": ["󰕿", "󰖀", "󰕾"]
         },
         "on-click": "pavucontrol",
-        "tooltip-format": "{volume}%"
+        "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+        "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%",
+        "tooltip-format": "{volume}%",
+        "scroll-step": 5,
+        "max-volume": 100
     },
 
-    "network": {
+    "network#ethernet": {
         "interface": "enp6s0",
-        "format": "{ifname}",
-        "format-wifi": "",
-        "format-ethernet": "",
+        "format-ethernet": "󰈀",
         "format-disconnected": "",
         "tooltip-format": "{ipaddr}/{cidr}",
-        "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+        "on-click": "~/.config/sway/scripts/show_notification.sh wifi enp6s0"
+    },
+
+    "network#wifi": {
+        "interface": "wlan0",
+        "format-wifi": "󰖩",
+        "format-disconnected": "",
+        "tooltip-format": "{essid} ({signalStrength}%)",
         "on-click": "~/.config/sway/scripts/network_manager.sh"
     },
 
     "bluetooth": {
-        "format": "",
-        "format-disabled": "",
-        "format-off": "",
-        "format-connected": "",
+        "format": "󰂯",
+        "format-disabled": "󰂲",
+        "format-off": "󰂲",
+        "format-connected": "󰂱",
         "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
         "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
         "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
@@ -66,9 +90,29 @@
         "on-click": "blueman-manager"
     },
 
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "format-icons": {
+            "power-saver": "󰌪",
+            "balanced": "󰗑",
+            "performance": "󱐋"
+        },
+        "tooltip-format": "Power profile: {profile}"
+    },
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "󰅶",
+            "deactivated": "󰾪"
+        },
+        "tooltip-format-activated": "Idle inhibitor active",
+        "tooltip-format-deactivated": "Idle inhibitor inactive"
+    },
+
     "clock": {
         "interval": 60,
-        "format": "{:%H\n%M}",
+        "format": "{:%H\n%M\n%d}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "on-click": "gsimplecal"
     },
@@ -76,5 +120,12 @@
     "tray": {
         "icon-size": 18,
         "spacing": 10
+    },
+
+    "custom/power": {
+        "format": "󰐥",
+        "on-click": "~/.config/sway/scripts/dmenu-logout.sh",
+        "tooltip": false
     }
-}
+  }
+]

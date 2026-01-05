@@ -147,11 +147,15 @@ exec swayidle -w \
     before-sleep 'pkill -9 flux-desktop; swaylock'
 
 focus_follows_mouse no
+focus_on_window_activation focus
 
 hide_edge_borders both
 
-# Position gsimplecal near status bar
-for_window [app_id="gsimplecal"] floating enable, move position cursor, move down 30px
+# Position gsimplecal near waybar clock (right side)
+for_window [app_id="gsimplecal"] floating enable, move position 1650 500
+
+# Ensure new windows open on focused workspace
+for_window [class=".*"] focus
 
 exec dunst
 
