@@ -1,0 +1,106 @@
+[global]
+    font = Iosevka Nerd Font 12
+
+    # Geometry: [{width}]x{height}[+/-{x}+/-{y}]
+    # width: notification width (0 = shrink to fit)
+    # height: max height before scrolling
+    # x,y: position offset from corner
+    geometry = "350x5-30+50"
+
+    # Position on screen: top-left, top-center, top-right,
+    #                     center-left, center, center-right,
+    #                     bottom-left, bottom-center, bottom-right
+    origin = top-right
+
+    # Offset from origin (x, y)
+    offset = 30x50
+
+    # Show how many messages are currently hidden
+    indicate_hidden = yes
+
+    # Shrink window if smaller than width
+    shrink = no
+
+    # Visual settings
+    frame_width = 2
+    frame_color = "#586e75"
+    separator_color = frame
+    separator_height = 2
+    padding = 10
+    horizontal_padding = 12
+    corner_radius = 8
+    transparency = 5
+
+    # Text settings
+    line_height = 0
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    vertical_alignment = center
+    show_age_threshold = 60
+    word_wrap = yes
+
+    # Icons
+    icon_position = left
+    min_icon_size = 32
+    max_icon_size = 64
+
+    # History
+    sticky_history = yes
+    history_length = 20
+
+    # Behavior
+    dmenu = /usr/bin/rofi -dmenu -p dunst:
+    browser = /usr/bin/firefox
+
+    # Mouse actions
+    mouse_left_click = close_current
+    mouse_middle_click = do_action, close_current
+    mouse_right_click = close_all
+
+    # Progress bar
+    progress_bar = true
+    progress_bar_height = 10
+    progress_bar_frame_width = 1
+    progress_bar_min_width = 150
+    progress_bar_max_width = 300
+
+# Default urgency colors (Solarized Dark theme)
+[urgency_low]
+    background = "#002b36"
+    foreground = "#839496"
+    frame_color = "#586e75"
+    timeout = 3
+
+[urgency_normal]
+    background = "#073642"
+    foreground = "#93a1a1"
+    frame_color = "#268bd2"
+    timeout = 5
+
+[urgency_critical]
+    background = "#dc322f"
+    foreground = "#fdf6e3"
+    frame_color = "#cb4b16"
+    timeout = 0
+
+# Center volume and brightness notifications
+[volume_brightness_center]
+    appname = "Volume"
+    origin = center
+    offset = 0x0
+    timeout = 2
+
+[brightness_center]
+    appname = "Brightness"
+    origin = center
+    offset = 0x0
+    timeout = 2
+
+# Keyboard layout notifications at top-center (macOS style)
+[keyboard_layout]
+    appname = "Keyboard"
+    origin = top-center
+    offset = 0x50
+    timeout = 1
+    format = "<b>%s</b>"
