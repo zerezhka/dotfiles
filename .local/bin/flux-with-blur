@@ -1,0 +1,41 @@
+#!/bin/bash
+# Launch flux on active screen and blur overlay on inactive screen
+
+# Kill existing processes
+pkill -9 flux-desktop 2>/dev/null
+pkill -9 feh 2>/dev/null
+
+# Get focused output
+ACTIVE=$(swaymsg -t get_outputs | jq -r '.[] | select(.focused==true) | .name')
+
+# Determine inactive output and workspace
+if [ "$ACTIVE" = "HDMI-A-2" ]; then
+    INACTIVE="HDMI-A-1"
+    INACTIVE_WS=6
+else
+    INACTIVE="HDMI-A-2"
+    INACTIVE_WS=1
+fi
+
+# Get current workspace to return to
+CURRENT_WS=$(swaymsg -t get_workspaces | jq -r '.[] | select(.focused==true) | .name')
+
+# Capture and blur inactive screen (heavy blur for overlay effect)
+grim -o "$INACTIVE" /tmp/blur-overlay.png
+magick /tmp/blur-overlay.png -blur 15x8 /tmp/blur-overlay-blurred.png
+
+# Switch to inactive workspace and launch fullscreen feh overlay
+swaymsg "workspace $INACTIVE_WS"
+feh -F -Z -. /tmp/blur-overlay-blurred.png &
+FEH_PID=$!
+
+sleep 0.3
+
+# Return to original workspace and launch flux
+swaymsg "workspace $CURRENT_WS"
+$HOME/.local/bin/flux-desktop
+
+# Clean up when flux exits
+kill $FEH_PID 2>/dev/null
+pkill -9 feh 2>/dev/null
+rm -f /tmp/blur-overlay*.png

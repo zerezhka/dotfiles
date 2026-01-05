@@ -137,14 +137,15 @@ bar {
 # Right monitor (HDMI-A-1): Vertical bar on right side with waybar
 exec_always sh -c 'pkill waybar; sleep 0.1; waybar &'
 
-bindsym $mod+Shift+l exec swaylock
+bindsym $mod+Shift+l exec "$HOME/.local/bin/lock-with-blur"
 
 exec swayidle -w \
-    timeout 300 "$HOME/.local/bin/flux-desktop" \
-    timeout 600 swaylock \
-    timeout 900 'swaymsg "output * dpms off"' \
-    resume 'pkill -9 flux-desktop; swaymsg "output * dpms on"' \
-    before-sleep 'pkill -9 flux-desktop; swaylock'
+    timeout 300 "$HOME/.local/bin/flux-with-blur" \
+    timeout 900 "$HOME/.local/bin/lock-with-blur" \
+    timeout 2700 'swaymsg "output * dpms off"' \
+    resume 'pkill -9 flux-desktop; pkill -9 feh; swaymsg "output * dpms on"' \
+    before-sleep "$HOME/.local/bin/lock-with-blur" \
+    lock "$HOME/.local/bin/lock-with-blur"
 
 focus_follows_mouse no
 focus_on_window_activation focus
@@ -153,6 +154,13 @@ hide_edge_borders both
 
 # Position gsimplecal near waybar clock (right side)
 for_window [app_id="gsimplecal"] floating enable, move position 1650 500
+
+# Flux screensaver fullscreen (will cover active output only)
+for_window [title="Flux"] fullscreen enable
+for_window [app_id="flux"] fullscreen enable
+
+# Feh blur overlay fullscreen
+for_window [class="feh"] fullscreen enable
 
 # Ensure new windows open on focused workspace
 for_window [class=".*"] focus

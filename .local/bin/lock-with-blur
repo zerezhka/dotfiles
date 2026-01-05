@@ -1,0 +1,32 @@
+#!/bin/bash
+# Lock with blur overlays on both screens
+
+# Kill any existing blur overlays
+pkill -9 feh 2>/dev/null
+
+# Capture and blur both screens
+grim -o "HDMI-A-2" /tmp/lock-blur-left.png &
+grim -o "HDMI-A-1" /tmp/lock-blur-right.png &
+wait
+
+magick /tmp/lock-blur-left.png -blur 15x8 /tmp/lock-blur-left-blurred.png &
+magick /tmp/lock-blur-right.png -blur 15x8 /tmp/lock-blur-right-blurred.png &
+wait
+
+# Launch blur overlays on both screens
+# Left screen - workspace 1
+swaymsg "workspace 1"
+feh -F -Z -. /tmp/lock-blur-left-blurred.png &
+sleep 0.2
+
+# Right screen - workspace 6
+swaymsg "workspace 6"
+feh -F -Z -. /tmp/lock-blur-right-blurred.png &
+sleep 0.2
+
+# Launch swaylock on top
+swaylock
+
+# Clean up when unlocked
+pkill -9 feh 2>/dev/null
+rm -f /tmp/lock-blur-*.png

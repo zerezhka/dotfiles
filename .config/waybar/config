@@ -112,7 +112,7 @@
 
     "clock": {
         "interval": 60,
-        "format": "{:%H\n%M\n%d}",
+        "format": "{:%H\n%M}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "on-click": "gsimplecal"
     },

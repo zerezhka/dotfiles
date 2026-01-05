@@ -1,5 +1,5 @@
-# Swaylock configuration
-# Matching i3 aesthetic with Solarized Dark theme
+# Swaylock-effects configuration
+# Modern locker with blur, clock, and visual effects
 
 # Display
 ignore-empty-password
@@ -18,19 +18,20 @@ datestr=%A, %B %d
 # Font
 font=Iosevka
 
-# Colors (Solarized Dark theme)
+# Background color
 color=073642
 
-# Ring colors
+# Indicator
 indicator-radius=120
 indicator-thickness=10
 
-# Default state
+# Ring colors - Default state
 ring-color=268bd2
 key-hl-color=859900
 text-color=fdf6e3
+inside-color=073642aa
 
-# Verifying state (checking password)
+# Verifying state
 ring-ver-color=2aa198
 text-ver-color=fdf6e3
 inside-ver-color=073642aa
@@ -45,21 +46,25 @@ ring-clear-color=b58900
 text-clear-color=fdf6e3
 inside-clear-color=073642aa
 
-# Default inside
-inside-color=073642aa
-
 # Separator
 separator-color=00000000
 
-# Layout text colors
+# Layout text
 layout-text-color=93a1a1
 layout-bg-color=00000000
 
-# Caps Lock warning
+# Caps Lock
 caps-lock-key-hl-color=cb4b16
 caps-lock-bs-hl-color=dc322f
 
-# Effects
-fade-in=0.2
-effect-blur=7x5
-effect-vignette=0.5:0.5
+# Line settings
+line-uses-inside
+
+# Effects - Modern and beautiful
+fade-in=0.3
+effect-blur=10x6
+effect-vignette=0.2:0.8
+effect-pixelate=5
+grace=2
+grace-no-mouse
+grace-no-touch
