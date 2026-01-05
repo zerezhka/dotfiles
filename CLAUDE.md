@@ -47,6 +47,30 @@ Persistent keyboard layout (US/RU with Alt+Shift toggle) is a **critical issue**
 3. Systemd service: `.config/systemd/user/keyboard-layout.service` (i3 only)
 4. Helper script: `.local/bin/setup-keyboard-layout`
 
+### Screensaver/Screen Locking
+
+The repository includes custom screensaver configuration for both i3 and Sway:
+
+**i3 (X11)**:
+- Uses `xidlehook` to trigger screensaver after idle timeout
+- Custom screensaver binary: `.xscreensaver/flux-desktop` (8.3MB ELF executable)
+- Configured in `.config/i3/config:235` to launch after 15 seconds of inactivity
+- Respects fullscreen and audio playback (won't activate during videos/music)
+
+**Sway (Wayland)**:
+- Uses `swayidle` with `swaylock` for screen locking
+- Configured in `.config/sway/config:149`:
+  - Lock screen after 300 seconds (5 min)
+  - DPMS off after 600 seconds (10 min)
+  - Locks before system sleep/suspend
+
+To restore on new system:
+```bash
+# Copy screensaver binary to home directory
+cp .xscreensaver/flux-desktop ~/.xscreensaver/
+chmod +x ~/.xscreensaver/flux-desktop
+```
+
 ### Helper Scripts
 
 **`.config/{i3,sway}/scripts/show_notification.sh`**: Unified notification system for brightness, volume, battery, wifi status. Uses `dunstify` with replacement ID 9999 to avoid notification spam.
