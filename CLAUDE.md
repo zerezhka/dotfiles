@@ -51,26 +51,34 @@ Persistent keyboard layout (US/RU with Alt+Shift toggle) is a **critical issue**
 
 The repository includes custom screensaver configuration for both i3 and Sway:
 
+**Flux Screensaver** (both i3 and Sway):
+- Custom flux-desktop binary: `.local/bin/flux-desktop` (8.3MB ELF executable)
+- Modified to exit on any key press or mouse click (not just Escape)
+- Works on both X11 and Wayland
+
 **i3 (X11)**:
-- Uses `xidlehook` to trigger screensaver after idle timeout
-- Custom screensaver binary: `.xscreensaver/flux-desktop` (8.3MB ELF executable)
-- Configured in `.config/i3/config:235` to launch after 15 seconds of inactivity
+- Uses `xidlehook` configured in `.config/i3/config:235`:
+  - Flux screensaver after 300 seconds (5 min)
+  - Lock screen after 600 seconds (10 min) - betterlockscreen draws over flux
+  - Flux killed on unlock (resume)
 - Respects fullscreen and audio playback (won't activate during videos/music)
+- Manual lock: Mod+Shift+L (shows locker background, no flux)
 
 **Sway (Wayland)**:
-- Uses `swayidle` with `swaylock` for screen locking
-- Custom swaylock config: `.config/swaylock/config` with Solarized Dark theme
-- Configured in `.config/sway/config:149`:
-  - Lock screen after 300 seconds (5 min)
-  - DPMS off after 600 seconds (10 min)
-  - Locks before system sleep/suspend
-- Features: clock display, blur effect, vignette, matching wallpaper background
+- Uses `swayidle` configured in `.config/sway/config:149`:
+  - Flux screensaver after 300 seconds (5 min)
+  - Lock screen after 600 seconds (10 min) - swaylock draws over flux
+  - DPMS off after 900 seconds (15 min)
+  - Flux killed on resume or before sleep
+- Custom swaylock config: `.config/swaylock/config`
+- Features: clock display, blurred screenshot, vibrant colors, centered layout
+- Manual lock: Mod+Shift+L (shows locker background, no flux)
 
 To restore on new system:
 ```bash
-# i3: Copy screensaver binary to home directory
-cp .xscreensaver/flux-desktop ~/.xscreensaver/
-chmod +x ~/.xscreensaver/flux-desktop
+# Copy binaries (works for both i3 and Sway)
+cp .local/bin/flux-desktop ~/.local/bin/
+chmod +x ~/.local/bin/flux-desktop
 
 # Sway: Copy swaylock config
 mkdir -p ~/.config/swaylock

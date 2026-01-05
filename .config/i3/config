@@ -231,8 +231,10 @@ exec --no-startup-id sh -c 'sleep 2 && setxkbmap -layout us,ru -option grp:alt_s
 bindsym $mod+Shift+l exec "betterlockscreen -l dim"
 #exec --no-startup-id light-locker --lock-after-screensaver=0 --lock-on-suspend
 
-# Flux screensaver - auto-launch after 15 seconds of inactivity (change to 900 for 15 min)
-exec --no-startup-id xidlehook --not-when-fullscreen --not-when-audio --timer 15 "$HOME/.xscreensaver/flux-desktop" ""
+# Flux screensaver after 5 min, lock over flux after 10 min
+exec --no-startup-id xidlehook --not-when-fullscreen --not-when-audio \
+    --timer 300 "$HOME/.local/bin/flux-desktop" "" \
+    --timer 600 "betterlockscreen -l dim" "pkill -9 flux-desktop"
 
 focus_follows_mouse no
 
