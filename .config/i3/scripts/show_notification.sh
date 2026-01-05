@@ -19,13 +19,16 @@ case "$1" in
 
         # Choose icon based on brightness level
         if [ "$percent" -ge 75 ]; then
-            ICON="󰃠"
+            ICON="󰃠"  # Full brightness
         elif [ "$percent" -ge 50 ]; then
-            ICON="󰃟"
+            ICON="󰃟"  # High brightness
         elif [ "$percent" -ge 25 ]; then
-            ICON="󰃞"
+            ICON="󰃞"  # Medium brightness
+        elif [ "$percent" -ge 20 ]; then
+            ICON="󰃝"  # Low brightness
         else
-            ICON="󰃝"
+            # 10-20%: reversed/different visual
+            ICON="󰛨"  # Very low / night light
         fi
 
         dunstify -r "$NOTIF_ID" \
