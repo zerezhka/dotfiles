@@ -27,7 +27,7 @@ input "1739:52543:SYNA7DA1:00_06CB:CD3F_Touchpad" {
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway BROWSER=chromium PATH GTK_THEME
 exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP BROWSER PATH GTK_THEME
 
-exec_always swaybg -m fill -i /usr/share/backgrounds/xfce/red_moon_penger.jpg
+exec_always sh -c 'pkill swaybg; sleep 0.2; swaybg -m fill -i /usr/share/backgrounds/xfce/red_moon_penger.jpg'
 
 # GTK theme for proper app backgrounds
 set $gnome-schema org.gnome.desktop.interface

@@ -25,6 +25,7 @@ indicator-radius=180
 indicator-thickness=8
 indicator-caps-lock
 indicator-idle-visible
+show-keyboard-layout
 
 # Default state - subtle white/gray with colored input
 ring-color=ffffff40
