@@ -133,7 +133,12 @@ bar {
 
 bindsym $mod+Shift+l exec swaylock
 
-exec swayidle -w timeout 300 swaylock timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' before-sleep swaylock
+exec swayidle -w \
+    timeout 300 "$HOME/.local/bin/flux-desktop" \
+    timeout 600 swaylock \
+    timeout 900 'swaymsg "output * dpms off"' \
+    resume 'pkill -9 flux-desktop; swaymsg "output * dpms on"' \
+    before-sleep 'pkill -9 flux-desktop; swaylock'
 
 focus_follows_mouse no
 
@@ -141,6 +146,9 @@ hide_edge_borders both
 
 # Floating windows
 for_window [app_id="pavucontrol"] floating enable, resize set 600 400, move position cursor, move up 200px, move left 300px
+
+# Flux screensaver fullscreen
+for_window [title="Flux"] fullscreen enable
 
 exec dunst
 
