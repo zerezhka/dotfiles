@@ -14,9 +14,9 @@ button = "left"
 cmd = "rofi -show drun"
 
 [[block]]
-block = "keyboard_layout"
-interval = 1
-format = "$layout"
+block = "custom"
+command = "~/.config/i3/scripts/get_keyboard_layout.sh"
+interval = 0.2
 
 [[block]]
 block = "sound"
