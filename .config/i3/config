@@ -221,3 +221,8 @@ bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/scripts/show_not
 bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/scripts/show_notification.sh volume +5%
 bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/scripts/show_notification.sh volume -5%
 bindsym XF86AudioMute exec --no-startup-id ~/.config/i3/scripts/show_notification.sh volume --toggle
+
+# Touchpad
+bindsym XF86TouchpadToggle exec --no-startup-id ~/.config/i3/scripts/toggle_touchpad.sh
+bindsym XF86TouchpadOn exec --no-startup-id xinput enable $(xinput list | grep -i touchpad | grep -o 'id=[0-9]*' | grep -o '[0-9]*' | head -1) && dunstify -r 7777 -a "Touchpad" -u low -t 2000 "󰍽 Touchpad" "Enabled"
+bindsym XF86TouchpadOff exec --no-startup-id xinput disable $(xinput list | grep -i touchpad | grep -o 'id=[0-9]*' | grep -o '[0-9]*' | head -1) && dunstify -r 7777 -a "Touchpad" -u low -t 2000 "󰟸 Touchpad" "Disabled"

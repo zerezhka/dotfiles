@@ -159,3 +159,7 @@ bindsym XF86AudioRaiseVolume exec ~/.config/sway/scripts/show_notification.sh vo
 bindsym XF86AudioLowerVolume exec ~/.config/sway/scripts/show_notification.sh volume -5%
 bindsym XF86AudioMute exec ~/.config/sway/scripts/show_notification.sh volume --toggle
 
+bindsym XF86TouchpadToggle exec ~/.config/sway/scripts/toggle_touchpad.sh
+bindsym XF86TouchpadOn exec swaymsg input type:touchpad events enabled && dunstify -r 7777 -a "Touchpad" -u low -t 2000 "󰍽 Touchpad" "Enabled"
+bindsym XF86TouchpadOff exec swaymsg input type:touchpad events disabled && dunstify -r 7777 -a "Touchpad" -u low -t 2000 "󰟸 Touchpad" "Disabled"
+
