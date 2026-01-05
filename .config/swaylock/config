@@ -1,0 +1,66 @@
+# Swaylock configuration
+# Modern lock screen inspired by Windows 11/macOS
+
+# Display
+ignore-empty-password
+show-failed-attempts
+daemonize
+
+# Background - screenshot with blur for modern look
+screenshots
+scaling=fill
+
+# Large clock - centered, modern layout
+clock
+timestr=%H:%M
+datestr=%A, %B %d
+font=Iosevka
+font-size=56
+
+# Fallback color
+color=1a1a2e
+
+# Indicator - centered, properly sized for text
+indicator-radius=180
+indicator-thickness=8
+indicator-caps-lock
+indicator-idle-visible
+
+# Default state - subtle white/gray with colored input
+ring-color=ffffff40
+key-hl-color=00d9ffdd
+bs-hl-color=ff6b6bdd
+text-color=ffffff
+inside-color=00000020
+
+# Verifying state (checking password) - soft blue
+ring-ver-color=0078d460
+text-ver-color=ffffff
+inside-ver-color=00000030
+
+# Wrong password state - soft red
+ring-wrong-color=e8173060
+text-wrong-color=ffffff
+inside-wrong-color=00000030
+
+# Clear state - soft gray
+ring-clear-color=ffffff50
+text-clear-color=ffffff
+inside-clear-color=00000030
+
+# Separator
+separator-color=00000000
+
+# Layout text colors
+layout-text-color=ffffff
+layout-bg-color=00000088
+
+# Caps Lock warning - bright orange
+caps-lock-key-hl-color=ff6348
+caps-lock-bs-hl-color=ff4757
+
+# Effects - stronger blur for prettier look
+fade-in=0.3
+effect-blur=9x7
+effect-vignette=0.6:0.7
+grace=2
