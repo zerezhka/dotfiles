@@ -123,6 +123,7 @@ mode "resize" {
 
 bindsym --to-code $mod+r mode "resize"
 
+# Left monitor (HDMI-A-2): Horizontal bar at top with i3status-rust
 bar {
     output HDMI-A-2
     status_command i3status-rs ~/.config/i3status-rust/config-sway.toml
@@ -133,16 +134,8 @@ bar {
     }
 }
 
-bar {
-    output HDMI-A-1
-    status_command i3status-rs ~/.config/i3status-rust/config-sway.toml
-    position top
-    tray_output primary
-    font pango:Iosevka Nerd Font 14
-    colors {
-        background #073642
-    }
-}
+# Right monitor (HDMI-A-1): Vertical bar on right side with waybar
+exec_always sh -c 'pkill waybar; sleep 0.1; waybar &'
 
 bindsym $mod+Shift+l exec swaylock
 
