@@ -170,6 +170,12 @@ bar {
     font pango:Iosevka Nerd Font 14
     colors {
         background #073642
+        statusline #839496
+        # Workspace colors: border, background, text
+        focused_workspace #268bd2 #268bd2 #fdf6e3
+        active_workspace #073642 #073642 #839496
+        inactive_workspace #073642 #073642 #839496
+        urgent_workspace #dc322f #dc322f #fdf6e3
     }
 }
 
