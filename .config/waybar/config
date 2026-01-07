@@ -2,21 +2,6 @@
   {
     "layer": "top",
     "output": "HDMI-A-1",
-    "position": "top",
-    "height": 24,
-    "modules-left": ["sway/workspaces"],
-    "modules-center": [],
-    "modules-right": [],
-
-    "sway/workspaces": {
-        "disable-scroll": true,
-        "all-outputs": false,
-        "format": "{name}"
-    }
-  },
-  {
-    "layer": "top",
-    "output": "HDMI-A-1",
     "position": "right",
     "width": 50,
     "modules-left": [],
@@ -113,6 +98,13 @@
     "clock": {
         "interval": 60,
         "format": "{:%H\n%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "on-click": "gsimplecal"
+    },
+
+    "clock#left": {
+        "interval": 60,
+        "format": "{:%a %d %b %R}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "on-click": "gsimplecal"
     },
