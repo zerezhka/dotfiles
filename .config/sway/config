@@ -134,7 +134,7 @@ exec swayidle -w \
     lock "$HOME/.local/bin/lock-with-blur"
 
 focus_follows_mouse no
-focus_on_window_activation focus
+focus_on_window_activation smart
 
 hide_edge_borders both
 
@@ -147,9 +147,6 @@ for_window [app_id="flux"] fullscreen enable
 
 # Feh blur overlay fullscreen
 for_window [class="feh"] fullscreen enable
-
-# Ensure new windows open on focused workspace
-for_window [class=".*"] focus
 
 exec dunst
 
