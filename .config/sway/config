@@ -123,15 +123,14 @@ mode "resize" {
 
 bindsym --to-code $mod+r mode "resize"
 
-bindsym $mod+Shift+l exec "$HOME/.local/bin/lock-with-blur"
+bindsym $mod+Shift+l exec $HOME/.local/bin/swaylock-smooth
 
 exec swayidle -w \
-    timeout 300 "$HOME/.local/bin/flux-with-blur" \
-    timeout 900 "$HOME/.local/bin/lock-with-blur" \
+    timeout 300 "$HOME/.local/bin/flux-desktop" \
+    timeout 900 "$HOME/.local/bin/swaylock-smooth" \
     timeout 2700 'swaymsg "output * dpms off"' \
-    resume 'pkill -9 flux-desktop; pkill -9 feh; swaymsg "output * dpms on"' \
-    before-sleep "$HOME/.local/bin/lock-with-blur" \
-    lock "$HOME/.local/bin/lock-with-blur"
+    resume 'pkill -9 flux-desktop; swaymsg "output * dpms on"' \
+    before-sleep "$HOME/.local/bin/swaylock-smooth"
 
 focus_follows_mouse no
 focus_on_window_activation smart
@@ -141,12 +140,9 @@ hide_edge_borders both
 # Position gsimplecal near waybar clock (right side)
 for_window [app_id="gsimplecal"] floating enable, move position 1650 500
 
-# Flux screensaver fullscreen (will cover active output only)
+# Flux screensaver fullscreen
 for_window [title="Flux"] fullscreen enable
 for_window [app_id="flux"] fullscreen enable
-
-# Feh blur overlay fullscreen
-for_window [class="feh"] fullscreen enable
 
 exec dunst
 

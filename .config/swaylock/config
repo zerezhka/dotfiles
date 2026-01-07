@@ -1,70 +1,67 @@
-# Swaylock-effects configuration
-# Modern locker with blur, clock, and visual effects
+# Swaylock configuration
+# Modern lock screen inspired by Windows 11/macOS
 
 # Display
 ignore-empty-password
 show-failed-attempts
-daemonize
 
-# Image and colors
-image=/usr/share/backgrounds/xfce/red_moon_penger.jpg
+# Background - provided via command line for smooth capture
 scaling=fill
 
-# Clock
+# Large clock - centered, modern layout
 clock
 timestr=%H:%M
 datestr=%A, %B %d
-
-# Font
 font=Iosevka
+font-size=56
 
-# Background color
-color=073642
+# Fallback color
+color=1a1a2e
 
-# Indicator
-indicator-radius=120
-indicator-thickness=10
+# Indicator - centered, properly sized for text
+indicator-radius=180
+indicator-thickness=8
+indicator-caps-lock
+indicator-idle-visible
+show-keyboard-layout
 
-# Ring colors - Default state
-ring-color=268bd2
-key-hl-color=859900
-text-color=fdf6e3
-inside-color=073642aa
+# Default state - subtle white/gray with colored input
+ring-color=ffffff40
+key-hl-color=00d9ffdd
+bs-hl-color=ff6b6bdd
+text-color=ffffff
+inside-color=00000020
 
-# Verifying state
-ring-ver-color=2aa198
-text-ver-color=fdf6e3
-inside-ver-color=073642aa
+# Verifying state (checking password) - soft blue
+ring-ver-color=0078d460
+text-ver-color=ffffff
+inside-ver-color=00000030
 
-# Wrong password state
-ring-wrong-color=dc322f
-text-wrong-color=fdf6e3
-inside-wrong-color=073642aa
+# Wrong password state - soft red
+ring-wrong-color=e8173060
+text-wrong-color=ffffff
+inside-wrong-color=00000030
 
-# Clear state
-ring-clear-color=b58900
-text-clear-color=fdf6e3
-inside-clear-color=073642aa
+# Clear state - soft gray
+ring-clear-color=ffffff50
+text-clear-color=ffffff
+inside-clear-color=00000030
 
 # Separator
 separator-color=00000000
 
-# Layout text
-layout-text-color=93a1a1
-layout-bg-color=00000000
+# Layout text colors
+layout-text-color=ffffff
+layout-bg-color=00000088
 
-# Caps Lock
-caps-lock-key-hl-color=cb4b16
-caps-lock-bs-hl-color=dc322f
+# Caps Lock warning - bright orange
+caps-lock-key-hl-color=ff6348
+caps-lock-bs-hl-color=ff4757
 
-# Line settings
-line-uses-inside
-
-# Effects - Modern and beautiful
-fade-in=0.3
-effect-blur=10x6
-effect-vignette=0.2:0.8
-effect-pixelate=5
-grace=2
+# Effects - stronger blur for prettier look
+fade-in=1.2
+effect-blur=9x7
+effect-vignette=0.6:0.7
+grace=5
 grace-no-mouse
 grace-no-touch

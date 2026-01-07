@@ -1,0 +1,8 @@
+#!/bin/bash
+# Capture screenshots before swaylock starts (eliminates blink)
+grim -o HDMI-A-2 /tmp/lock-left.png &
+grim -o HDMI-A-1 /tmp/lock-right.png &
+wait
+
+# Launch swaylock with pre-captured images (blur/vignette applied from config)
+exec swaylock -i "HDMI-A-2:/tmp/lock-left.png" -i "HDMI-A-1:/tmp/lock-right.png"
