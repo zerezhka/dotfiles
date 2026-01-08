@@ -9,6 +9,7 @@
     ],
     "modules-center": [],
     "modules-right": [
+        "custom/resize-mode",
         "custom/run",
         "custom/keyboard-layout",
         "pulseaudio",
@@ -38,6 +39,13 @@
             "focused": "",
             "default": ""
         }
+    },
+
+    "custom/resize-mode": {
+        "exec": "~/.config/hypr/scripts/resize-mode.sh",
+        "interval": 1,
+        "format": "{}",
+        "tooltip": false
     },
 
     "custom/run": {

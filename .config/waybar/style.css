@@ -40,6 +40,7 @@ window#waybar {
 
 #custom-launcher,
 #custom-run,
+#custom-resize-mode,
 #custom-keyboard-layout,
 #pulseaudio,
 #network,
@@ -58,6 +59,11 @@ window#waybar {
 #custom-launcher {
     color: #268bd2;
     font-size: 16px;
+}
+
+#custom-resize-mode {
+    color: #dc322f;
+    font-weight: bold;
 }
 
 #custom-keyboard-layout {
