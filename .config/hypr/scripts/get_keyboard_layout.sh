@@ -1,8 +1,15 @@
 #!/bin/bash
 state_file="$HOME/.cache/hypr_keyboard_layout_state"
-layout_name=$(hyprctl devices -j 2>/dev/null | jq -r '.keyboards[0].active_keymap' 2>/dev/null | head -1)
 
-if echo "$layout_name" | grep -qi "russian\|ru"; then
+# Get the main keyboard's active layout index (0 = first layout, 1 = second layout)
+layout_index=$(hyprctl devices -j 2>/dev/null | jq -r '.keyboards[] | select(.main == true) | .active_layout_index' 2>/dev/null | head -1)
+
+# If no main keyboard found, use first keyboard
+if [ -z "$layout_index" ]; then
+    layout_index=$(hyprctl devices -j 2>/dev/null | jq -r '.keyboards[0].active_layout_index' 2>/dev/null)
+fi
+
+if [ "$layout_index" = "1" ]; then
     current_layout="🇷🇺 RU"
     layout_name="RU"
 else
