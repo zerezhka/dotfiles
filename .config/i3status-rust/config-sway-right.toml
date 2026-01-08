@@ -1,0 +1,7 @@
+[theme]
+theme = "solarized-dark"
+
+[icons]
+icons = "awesome4"
+
+# Empty - workspaces shown by default in swaybar

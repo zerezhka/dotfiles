@@ -172,10 +172,28 @@ bar {
     }
 }
 
+# Right monitor (HDMI-A-1): Top bar with workspaces only
+bar {
+    id bar-1
+    output HDMI-A-1
+    status_command /usr/bin/i3status-rs /home/sergey/.config/i3status-rust/config-sway-right.toml
+    position top
+    font pango:Iosevka Nerd Font 14
+    colors {
+        background #073642
+        statusline #839496
+        # Workspace colors: border, background, text
+        focused_workspace #268bd2 #268bd2 #fdf6e3
+        active_workspace #073642 #073642 #839496
+        inactive_workspace #073642 #073642 #839496
+        urgent_workspace #dc322f #dc322f #fdf6e3
+    }
+}
+
 # Right monitor (HDMI-A-1): Vertical bar on right side with waybar
 exec_always sh -c 'pkill waybar; sleep 0.1; waybar &'
 
 # Workaround: Sway fails to start swaybar on login when waybar is also used
 # Start swaybar manually after a delay (only on initial login, not reload)
-exec sh -c 'sleep 2 && swaybar -b bar-0 &'
+exec sh -c 'sleep 2 && swaybar -b bar-0 && swaybar -b bar-1 &'
 
