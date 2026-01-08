@@ -1,28 +1,48 @@
 [
   {
     "layer": "top",
-    "output": "HDMI-A-1",
-    "position": "right",
-    "width": 50,
-    "modules-left": [],
+    "output": "HDMI-A-2",
+    "position": "top",
+    "height": 30,
+    "modules-left": [
+        "hyprland/workspaces"
+    ],
     "modules-center": [],
     "modules-right": [
         "custom/run",
         "custom/keyboard-layout",
+        "pulseaudio",
         "network#ethernet",
         "network#wifi",
         "bluetooth",
-        "pulseaudio",
-        "power-profiles-daemon",
-        "idle_inhibitor",
-        "clock",
-        "tray",
+        "clock#left",
         "custom/power"
     ],
 
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": false,
+        "format": "{name}",
+        "format-icons": {
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "7",
+            "8": "8",
+            "9": "9",
+            "10": "10",
+            "urgent": "",
+            "focused": "",
+            "default": ""
+        }
+    },
+
     "custom/run": {
-        "format": "Run",
-        "on-click": "~/.config/hypr/scripts/launcher-right.sh",
+        "format": " Run",
+        "on-click": "rofi -show drun",
         "tooltip": false
     },
 
@@ -75,43 +95,11 @@
         "on-click": "blueman-manager"
     },
 
-    "power-profiles-daemon": {
-        "format": "{icon}",
-        "format-icons": {
-            "power-saver": "󰌪",
-            "balanced": "󰗑",
-            "performance": "󱐋"
-        },
-        "tooltip-format": "Power profile: {profile}"
-    },
-
-    "idle_inhibitor": {
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "󰅶",
-            "deactivated": "󰾪"
-        },
-        "tooltip-format-activated": "Idle inhibitor active",
-        "tooltip-format-deactivated": "Idle inhibitor inactive"
-    },
-
-    "clock": {
-        "interval": 60,
-        "format": "{:%H\n%M}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "on-click": "gsimplecal"
-    },
-
     "clock#left": {
         "interval": 60,
         "format": "{:%a %d %b %R}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "on-click": "gsimplecal"
-    },
-
-    "tray": {
-        "icon-size": 18,
-        "spacing": 10
     },
 
     "custom/power": {

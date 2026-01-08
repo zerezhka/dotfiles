@@ -1,20 +1,20 @@
 #!/bin/bash
 
-OPTIONS=" Shutdown\n Logout\n Reboot\n Lock"
+OPTIONS="󰐥 Shutdown\n󰍃 Logout\n󰜉 Reboot\n󰌾 Lock"
 
 CHOICE=$(echo -e $OPTIONS | rofi -dmenu -i -p "Choose action:")
 
 case "$CHOICE" in
-    " Shutdown")
+    *"Shutdown"*)
         systemctl poweroff
         ;;
-    " Logout")
+    *"Logout"*)
         hyprctl dispatch exit
         ;;
-    " Reboot")
+    *"Reboot"*)
         systemctl reboot
         ;;
-    " Lock")
+    *"Lock"*)
         hyprlock
         ;;
 esac
