@@ -77,15 +77,15 @@
 
     "network#ethernet": {
         "interface": "enp6s0",
-        "format-ethernet": "󰈀",
+        "format-ethernet": "󰈀 {bandwidthUpBytes} ↓{bandwidthDownBytes}",
         "format-disconnected": "",
         "tooltip-format": "{ipaddr}/{cidr}",
-        "on-click": "~/.config/sway/scripts/show_notification.sh wifi enp6s0"
+        "interval": 2
     },
 
     "network#wifi": {
         "interface": "wlan0",
-        "format-wifi": "󰖩",
+        "format-wifi": "󰖩 {essid}",
         "format-disconnected": "",
         "tooltip-format": "{essid} ({signalStrength}%)",
         "on-click": "~/.config/sway/scripts/network_manager.sh"
