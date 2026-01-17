@@ -1,0 +1,97 @@
+#!/bin/bash
+
+DURATION=${1:-10}
+
+echo "=== CPU Power Measurement (${DURATION}s) ==="
+echo ""
+
+if command -v ryzenadj &> /dev/null; then
+    echo "--- Current TDP Limits (ryzenadj) ---"
+    if sudo -n true 2>/dev/null; then
+        sudo ryzenadj --info 2>&1 | grep -E "(STAPM|PPT|TDC|EDC|Current|Limit)" || echo "Unable to read (may need secure boot disabled or ryzen_smu module)"
+    else
+        echo "Sudo required. Run manually: sudo ryzenadj --info"
+        echo "Or install passwordless sudo: sudo cp ~/.config/sudoers.d/ryzenadj /etc/sudoers.d/ && sudo chmod 440 /etc/sudoers.d/ryzenadj"
+    fi
+    echo ""
+fi
+
+echo "--- CPU Frequency & Utilization ---"
+echo "Sampling every 1 second for ${DURATION} seconds..."
+echo ""
+
+START_TIME=$(date +%s)
+SAMPLES=0
+TOTAL_FREQ=0
+TOTAL_UTIL=0
+
+PREV_STAT=$(awk '/^cpu / {idle=$5+$6; total=idle+$2+$3+$4+$7+$8; print idle" "total}' /proc/stat)
+
+while [ $(($(date +%s) - START_TIME)) -lt $DURATION ]; do
+    if [ -f /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq ]; then
+        FREQ=$(cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_cur_freq 2>/dev/null | awk '{sum+=$1; count++} END {print int(sum/count/1000)}')
+        TOTAL_FREQ=$((TOTAL_FREQ + FREQ))
+    else
+        FREQ="N/A"
+    fi
+    
+    CURR_STAT=$(awk '/^cpu / {idle=$5+$6; total=idle+$2+$3+$4+$7+$8; print idle" "total}' /proc/stat)
+    if [ -n "$PREV_STAT" ] && [ -n "$CURR_STAT" ]; then
+        DIFF_IDLE=$(($(echo $CURR_STAT | awk '{print $1}') - $(echo $PREV_STAT | awk '{print $1}')))
+        DIFF_TOTAL=$(($(echo $CURR_STAT | awk '{print $2}') - $(echo $PREV_STAT | awk '{print $2}')))
+        if [ $DIFF_TOTAL -gt 0 ]; then
+            UTIL=$(awk "BEGIN {printf \"%.1f\", 100 * (1 - $DIFF_IDLE / $DIFF_TOTAL)}")
+            UTIL_INT=$(echo "$UTIL" | cut -d. -f1)
+            TOTAL_UTIL=$((TOTAL_UTIL + UTIL_INT))
+        else
+            UTIL="0.0"
+            UTIL_INT=0
+        fi
+        PREV_STAT=$CURR_STAT
+    else
+        UTIL="N/A"
+    fi
+    
+    TEMP=$(sensors 2>/dev/null | grep -i "Tctl\|Tdie" | head -1 | awk '{print $2}' | sed 's/+//;s/°C//')
+    
+    printf "\r[%2d/%2ds] Freq: %4s MHz | CPU: %5s%% | Temp: %5s°C" \
+        $((SAMPLES + 1)) $DURATION "${FREQ:-N/A}" "${UTIL:-N/A}" "${TEMP:-N/A}"
+    
+    SAMPLES=$((SAMPLES + 1))
+    sleep 1
+done
+
+echo ""
+echo ""
+
+if [ $SAMPLES -gt 0 ]; then
+    AVG_FREQ=$((TOTAL_FREQ / SAMPLES))
+    AVG_UTIL=$((TOTAL_UTIL / SAMPLES))
+    echo "--- Summary (${SAMPLES} samples) ---"
+    echo "Average CPU Frequency: ${AVG_FREQ} MHz"
+    echo "Average CPU Utilization: ${AVG_UTIL}%"
+    
+    if [ -n "$TEMP" ]; then
+        echo "Current Temperature: ${TEMP}°C"
+    fi
+    echo ""
+fi
+
+echo "--- CPU Info ---"
+if [ -f /proc/cpuinfo ]; then
+    MAX_FREQ=$(grep "cpu MHz" /proc/cpuinfo | head -1 | awk '{print int($4)}')
+    CORES=$(grep -c "^processor" /proc/cpuinfo)
+    MODEL=$(grep "model name" /proc/cpuinfo | head -1 | cut -d: -f2 | xargs)
+    echo "Model: $MODEL"
+    echo "Cores: $CORES"
+    echo "Max Frequency: ${MAX_FREQ} MHz"
+    echo ""
+fi
+
+echo "--- Estimated Power Consumption ---"
+echo "Note: Actual power measurement requires hardware sensors or ryzenadj with proper permissions"
+echo ""
+echo "For accurate TDP measurement:"
+echo "1. Run under load: stress-ng --cpu \$(nproc) --timeout 30s"
+echo "2. Check ryzenadj --info (requires sudo, may need secure boot disabled)"
+echo "3. Monitor temperature - higher temp usually indicates higher power draw"

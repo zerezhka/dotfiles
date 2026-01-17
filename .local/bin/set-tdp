@@ -1,0 +1,25 @@
+#!/bin/bash
+
+TDP_WATTS=${1:-45}
+TDP_MW=$((TDP_WATTS * 1000))
+
+FAST_LIMIT=$((TDP_MW + 5000))
+SLOW_LIMIT=$((TDP_MW - 5000))
+
+if ! command -v ryzenadj &> /dev/null; then
+    echo "Error: ryzenadj not found. Install with: yay -S ryzenadj"
+    exit 1
+fi
+
+sudo ryzenadj \
+    --stapm-limit=$TDP_MW \
+    --fast-limit=$FAST_LIMIT \
+    --slow-limit=$SLOW_LIMIT
+
+if [ $? -eq 0 ]; then
+    echo "TDP limit set to ${TDP_WATTS}W (${TDP_MW}mW)"
+    echo "Fast limit: ${FAST_LIMIT}mW, Slow limit: ${SLOW_LIMIT}mW"
+else
+    echo "Failed to set TDP limits. Make sure you have sudo permissions."
+    exit 1
+fi

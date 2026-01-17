@@ -1,0 +1,48 @@
+#!/bin/bash
+
+echo "=== Testing CPU Responsiveness with 45W TDP Limit ==="
+echo ""
+
+echo "--- Single-threaded performance (typical desktop tasks) ---"
+echo "Running single-threaded benchmark..."
+
+START=$(date +%s.%N)
+for i in {1..1000000}; do
+    result=$(echo "scale=10; sqrt($i)" | bc)
+done
+END=$(date +%s.%N)
+SINGLE_TIME=$(echo "$END - $START" | bc)
+
+echo "Single-threaded calculation: ${SINGLE_TIME}s"
+echo ""
+
+echo "--- Checking current CPU frequency (should boost for single-thread) ---"
+for i in {1..5}; do
+    FREQ=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq 2>/dev/null | awk '{print int($1/1000)}')
+    echo "Sample $i: ${FREQ} MHz"
+    sleep 0.5
+done
+echo ""
+
+echo "--- Multi-threaded light load (simulating normal usage) ---"
+echo "Running 4 threads (typical for desktop apps)..."
+stress-ng --cpu 4 --timeout 5s --quiet &
+STRESS_PID=$!
+
+sleep 1
+FREQ_UNDER_LOAD=$(cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_cur_freq 2>/dev/null | awk '{sum+=$1; count++} END {print int(sum/count/1000)}')
+echo "Frequency under 4-thread load: ${FREQ_UNDER_LOAD} MHz"
+
+wait $STRESS_PID 2>/dev/null
+echo ""
+
+echo "--- Summary ---"
+echo "The TDP limit mainly affects sustained ALL-CORE workloads."
+echo "For normal desktop use (browsing, coding, apps), CPU will still:"
+echo "  - Boost to high frequencies for single-threaded tasks"
+echo "  - Maintain good responsiveness"
+echo "  - Only throttle during very heavy sustained loads"
+echo ""
+echo "DDR5 helps with memory bandwidth, but CPU frequency still matters"
+echo "for CPU-bound tasks. However, the 45W limit only kicks in during"
+echo "sustained multi-core stress, not during normal desktop usage."

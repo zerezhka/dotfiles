@@ -1,0 +1,49 @@
+#!/bin/bash
+
+DURATION=${1:-30}
+LOAD_DURATION=${2:-20}
+
+if ! command -v stress-ng &> /dev/null; then
+    echo "Error: stress-ng not found. Install with: sudo pacman -S stress-ng"
+    exit 1
+fi
+
+echo "=== CPU Power Measurement Under Load ==="
+echo "Baseline measurement: 10s"
+echo "Load test: ${LOAD_DURATION}s"
+echo ""
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+MEASURE_SCRIPT="$SCRIPT_DIR/measure-cpu-power"
+
+echo "--- Baseline (idle) ---"
+"$MEASURE_SCRIPT" 10 2>&1 | tail -15
+echo ""
+
+echo "--- Starting CPU load test ---"
+echo "Running stress-ng on all $(nproc) cores for ${LOAD_DURATION} seconds..."
+echo ""
+
+stress-ng --cpu $(nproc) --timeout ${LOAD_DURATION}s &
+STRESS_PID=$!
+
+sleep 2
+
+echo "--- Under Load ---"
+"$MEASURE_SCRIPT" $LOAD_DURATION 2>&1 | tail -15
+
+wait $STRESS_PID 2>/dev/null
+
+echo ""
+echo "--- Post-Load (cooling down) ---"
+"$MEASURE_SCRIPT" 10 2>&1 | tail -15
+
+echo ""
+echo "=== Measurement Complete ==="
+echo ""
+echo "To get actual TDP limits, run:"
+echo "  sudo ryzenadj --info"
+echo ""
+echo "Note: If ryzenadj fails, you may need to:"
+echo "  1. Disable Secure Boot in BIOS"
+echo "  2. Or load the ryzen_smu kernel module: sudo modprobe ryzen_smu"

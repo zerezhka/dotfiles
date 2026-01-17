@@ -1,0 +1,11 @@
+[Unit]
+Description=Set CPU TDP limit
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/set-tdp 45
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target
