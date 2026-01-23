@@ -27,3 +27,15 @@ foreground = "#839496"
 
 [cursor]
 style = { shape = "Block", blinking = "On" }
+
+[keyboard]
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Control|Shift"
+action = "Paste"
+
+[[keyboard.bindings]]
+key = "М"
+mods = "Control|Shift"
+action = "Paste"
