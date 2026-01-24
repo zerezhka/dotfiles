@@ -2,6 +2,10 @@
 export BROWSER=firefox
 export PATH=$HOME/.cargo/bin:$HOME/bin:$HOME/.local/bin:/usr/local/bin:$GOPATH/bin:$PATH
 
+if [ -f "$HOME/.Xresources" ]; then
+    xrdb -merge "$HOME/.Xresources"
+fi
+
 # i3-specific configurations - only apply when running i3
 if [ "$XDG_CURRENT_DESKTOP" = "i3" ] || [ "$DESKTOP_SESSION" = "i3" ]; then
     # Ensure GUI apps use our custom xdg-open
