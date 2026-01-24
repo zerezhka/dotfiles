@@ -1,5 +1,6 @@
 [
   {
+    "name": "bar-left-top",
     "layer": "top",
     "output": "HDMI-A-2",
     "position": "top",
