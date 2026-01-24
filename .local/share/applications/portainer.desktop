@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Portainer
+Comment=Docker Container Management UI
+GenericName=Docker Management
+Exec=xdg-open https://localhost:9443
+Icon=docker
+Type=Application
+Categories=Development;System;
+Terminal=false
