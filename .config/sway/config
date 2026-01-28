@@ -43,6 +43,7 @@ bindsym --to-code $mod+d exec rofi -show drun
 bindsym $mod+c exec cliphist list | rofi -dmenu | cliphist decode | wl-copy
 
 bindsym $mod+Shift+s exec sh -c 'geometry=$(slurp) && grim -g "$geometry" - | wl-copy && notify-send "Screenshot saved to clipboard"'
+bindsym Print exec sh -c 'grim - | wl-copy && notify-send "Screenshot saved to clipboard"'
 
 bindsym --to-code $mod+j focus left
 bindsym --to-code $mod+k focus down
