@@ -11,7 +11,7 @@ scaling=fill
 # Large clock - centered, modern layout
 clock
 timestr=%H:%M
-datestr=%A, %B %d
+datestr=%A, %-d %B
 font=Iosevka
 font-size=56
 
