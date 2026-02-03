@@ -13,8 +13,9 @@ C_RESET="\033[0m"
 # Read JSON input from stdin
 input=$(cat)
 
-# Extract current directory
+# Extract current directory and model
 current_dir=$(echo "$input" | jq -r '.workspace.current_dir')
+model_name=$(echo "$input" | jq -r '.model.display_name // "Unknown"')
 
 # Git information
 git_branch=""
@@ -104,6 +105,7 @@ context_part=$(printf " ${C_GRAY}│${C_RESET} ${pct_color}${pct}%%${C_RESET}: $
 
 # Build status line components
 dir_part=$(printf "📁 ${C_GRAY}${dir_parent}${C_PURPLE}/${dir_name}${C_RESET}")
+model_part=$(printf " ${C_GRAY}│${C_BLUE} ${model_name}${C_RESET}")
 
 if [ -n "$git_branch" ]; then
     if [ "$git_status" = "✓" ]; then
@@ -125,4 +127,4 @@ else
 fi
 
 # Print complete status line
-echo -n "${dir_part}${git_part}${context_part}${cost_part}"
+echo -n "${dir_part}${model_part}${git_part}${context_part}${cost_part}"
