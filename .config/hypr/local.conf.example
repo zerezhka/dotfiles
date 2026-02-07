@@ -1,10 +1,12 @@
 # PC-specific Hyprland configuration example
-# Copy this file to local.conf and customize for your hardware
+# This file should be copied to ~/.config/hypr/local.conf (NOT in the repo)
 #
 # Setup on new system:
-#   cp local.conf.example local.conf
-#   # Edit local.conf with your monitor setup
-#   ln -sf ~/Projects/dotfiles/.config/hypr/local.conf ~/.config/hypr/local.conf
+#   cp ~/Projects/dotfiles/.config/hypr/local.conf.example ~/.config/hypr/local.conf
+#   # Edit ~/.config/hypr/local.conf with your monitor setup
+#
+# Note: local.conf lives in ~/.config/hypr/ (outside repo) so it persists
+# across git operations and is truly machine-specific
 
 # Monitor setup examples:
 # Single monitor:
