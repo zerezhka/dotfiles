@@ -13,12 +13,14 @@ i3lock-color
 k6
 mediawriter
 neofetch
+openssl-1.1
 parsec-bin
 portainer-lts-bin
 portproton
 pycharm
 python311
 ruby-fusuma
+ryzenadj
 sddm-sugar-candy-git
 sing-geoip-db
 swaylock-effects
