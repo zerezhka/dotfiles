@@ -1,0 +1,120 @@
+[
+  {
+    "name": "bar-left-top",
+    "layer": "top",
+    "output": "HDMI-A-2",
+    "position": "top",
+    "height": 30,
+    "modules-left": [
+        "hyprland/workspaces"
+    ],
+    "modules-center": [],
+    "modules-right": [
+        "custom/resize-mode",
+        "custom/run",
+        "custom/keyboard-layout",
+        "pulseaudio",
+        "network#ethernet",
+        "network#wifi",
+        "bluetooth",
+        "clock#left",
+        "custom/power"
+    ],
+
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": false,
+        "format": "{name}",
+        "format-icons": {
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "7",
+            "8": "8",
+            "9": "9",
+            "10": "10",
+            "urgent": "",
+            "focused": "",
+            "default": ""
+        }
+    },
+
+    "custom/resize-mode": {
+        "exec": "~/.config/hypr/scripts/resize-mode.sh",
+        "interval": 1,
+        "format": "{}",
+        "tooltip": false
+    },
+
+    "custom/run": {
+        "format": " Run",
+        "on-click": "rofi -show drun",
+        "tooltip": false
+    },
+
+    "custom/keyboard-layout": {
+        "exec": "~/.config/hypr/scripts/get_keyboard_layout.sh | awk '{print $1}'",
+        "interval": 1,
+        "format": "{}",
+        "tooltip": false
+    },
+
+    "pulseaudio": {
+        "format": "{icon}",
+        "format-muted": "󰖁",
+        "format-icons": {
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "on-click": "pavucontrol",
+        "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+        "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%",
+        "tooltip-format": "{volume}%",
+        "scroll-step": 5,
+        "max-volume": 100
+    },
+
+    "network#ethernet": {
+        "interface": "enp6s0",
+        "format-ethernet": "󰈀 {bandwidthUpBytes} ↓{bandwidthDownBytes}",
+        "format-disconnected": "",
+        "tooltip-format": "{ipaddr}/{cidr}",
+        "interval": 2
+    },
+
+    "network#wifi": {
+        "interface": "wlan0",
+        "format-wifi": "󰖩 {essid}",
+        "format-disconnected": "",
+        "tooltip-format": "{essid} ({signalStrength}%)",
+        "on-click": "~/.config/sway/scripts/network_manager.sh"
+    },
+
+    "bluetooth": {
+        "format": "󰂯",
+        "format-disabled": "󰂲",
+        "format-off": "󰂲",
+        "format-connected": "󰂱",
+        "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+        "on-click": "blueman-manager"
+    },
+
+    "clock#left": {
+        "interval": 60,
+        "format": "{:%a %d %b %R}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "on-click": "gsimplecal"
+    },
+
+    "custom/power": {
+        "format": "󰐥",
+        "on-click": "~/.config/hypr/scripts/dmenu-logout.sh",
+        "tooltip": false
+    }
+  }
+]

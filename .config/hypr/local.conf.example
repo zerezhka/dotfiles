@@ -1,0 +1,25 @@
+# PC-specific Hyprland configuration example
+# Copy this file to local.conf and customize for your hardware
+#
+# Setup on new system:
+#   cp local.conf.example local.conf
+#   # Edit local.conf with your monitor setup
+#   ln -sf ~/Projects/dotfiles/.config/hypr/local.conf ~/.config/hypr/local.conf
+
+# Monitor setup examples:
+# Single monitor:
+# monitor=,preferred,auto,1
+
+# Dual monitors side by side:
+# monitor=HDMI-A-1,1920x1080@60,0x0,1
+# monitor=HDMI-A-2,1920x1080@60,1920x0,1
+
+# Laptop with external monitor:
+# monitor=eDP-1,1920x1080@60,0x0,1
+# monitor=HDMI-A-1,1920x1080@60,1920x0,1
+
+# Workspace assignments (optional):
+# workspace=1,monitor:HDMI-A-1
+# workspace=2,monitor:HDMI-A-1
+# workspace=6,monitor:HDMI-A-2
+# workspace=7,monitor:HDMI-A-2

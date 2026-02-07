@@ -1,129 +1,100 @@
 * {
     border: none;
     border-radius: 0;
-    font-family: "Iosevka NF", "Symbols Nerd Font";
-    font-size: 16px;
+    font-family: "Iosevka Nerd Font";
+    font-size: 14px;
     min-height: 0;
 }
 
 window#waybar {
-    background: #002b36;
-    color: #93a1a1;
+    background-color: #073642;
+    color: #839496;
 }
 
 #workspaces button {
-    padding: 8px 0;
-    background: transparent;
-    color: #586e75;
-    border-left: 3px solid transparent;
-    min-width: 40px;
+    padding: 6px 8px;
+    margin: 0 2px;
+    background-color: transparent;
+    color: #839496;
 }
 
-#workspaces button.focused {
-    background: #073642;
-    color: #268bd2;
-    border-left: 3px solid #268bd2;
-}
-
-#workspaces button.urgent {
-    background: #073642;
-    color: #dc322f;
-    border-left: 3px solid #dc322f;
-}
-
-#workspaces button:hover {
-    background: #073642;
-    color: #93a1a1;
-}
-
-#mode,
-#custom-launcher,
-#custom-keyboard-layout,
-#keyboard-state,
-#pulseaudio,
-#network,
-#bluetooth,
-#battery,
-#clock,
-#custom-power {
-    padding: 12px 0;
-    margin: 4px 0;
-    background: #073642;
-    color: #93a1a1;
-}
-
-#custom-launcher,
-#custom-power {
-    font-size: 20px;
-    padding: 15px 0;
-}
-
-#custom-launcher:hover,
-#custom-power:hover {
-    background: #268bd2;
+#workspaces button.active {
+    background-color: #268bd2;
     color: #fdf6e3;
 }
 
-#mode {
-    background: #b58900;
-    color: #002b36;
+#workspaces button.focused {
+    background-color: #268bd2;
+    color: #fdf6e3;
+}
+
+#workspaces button.urgent {
+    background-color: #dc322f;
+    color: #fdf6e3;
+}
+
+#workspaces button:hover {
+    background-color: #586e75;
+    color: #fdf6e3;
+}
+
+#custom-launcher,
+#custom-run,
+#custom-resize-mode,
+#custom-keyboard-layout,
+#pulseaudio,
+#network,
+#bluetooth,
+#power-profiles-daemon,
+#idle_inhibitor,
+#clock,
+#tray,
+#custom-power {
+    padding: 6px 8px;
+    margin: 0 2px;
+    background-color: #073642;
+    color: #eee8d5;
+}
+
+#custom-launcher {
+    color: #268bd2;
+    font-size: 16px;
+}
+
+#custom-resize-mode {
+    color: #dc322f;
     font-weight: bold;
 }
 
-#clock {
+#custom-keyboard-layout {
     font-weight: bold;
-    font-size: 14px;
-    padding: 10px 0;
 }
 
-#pulseaudio {
-    color: #2aa198;
+#custom-power {
+    color: #eee8d5;
+    font-size: 16px;
+    padding-right: 12px;
 }
 
 #pulseaudio.muted {
     color: #dc322f;
 }
 
-#network {
-    color: #268bd2;
-}
-
 #network.disconnected {
     color: #dc322f;
 }
 
-#bluetooth {
-    color: #6c71c4;
-}
-
-#bluetooth.disabled,
 #bluetooth.off {
     color: #586e75;
 }
 
-#bluetooth.connected {
-    color: #268bd2;
+#clock {
+    font-weight: bold;
+    color: #fdf6e3;
 }
 
-#battery {
-    color: #859900;
-}
-
-#battery.charging {
-    color: #b58900;
-}
-
-#battery.warning:not(.charging) {
-    color: #cb4b16;
-}
-
-#battery.critical:not(.charging) {
-    color: #dc322f;
-    animation: blink 1s linear infinite;
-}
-
-@keyframes blink {
-    50% {
-        opacity: 0.5;
-    }
+tooltip {
+    background-color: #002b36;
+    color: #839496;
+    border: 1px solid #586e75;
 }
