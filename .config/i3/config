@@ -246,6 +246,8 @@ exec --no-startup-id sh -c 'sleep 3 && setxkbmap -layout us,ru -option grp:alt_s
 
 # [Block] on screen display
 exec --no-startup-id dunst
+exec --no-startup-id while true; do ~/.config/i3/scripts/capslock-notify.sh; sleep 0.5; done
+exec --no-startup-id while true; do ~/.config/i3/scripts/numlock-notify.sh; sleep 0.5; done
 
 # Volume
 bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/scripts/show_notification.sh volume +5%
