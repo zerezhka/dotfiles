@@ -146,6 +146,8 @@ for_window [title="Flux"] fullscreen enable
 for_window [app_id="flux"] fullscreen enable
 
 exec dunst
+exec while true; do ~/.config/sway/scripts/capslock-notify.sh; sleep 0.5; done
+exec while true; do ~/.config/sway/scripts/numlock-notify.sh; sleep 0.5; done
 
 # Clipboard manager - persist clipboard content
 exec_always sh -c 'pkill -f "wl-paste.*cliphist" 2>/dev/null; wl-paste --type text --watch cliphist store'
