@@ -117,7 +117,7 @@
 
     "custom/power": {
         "format": "󰐥",
-        "on-click": "~/.config/hypr/scripts/dmenu-logout.sh",
+        "on-click": "~/.config/scripts/dmenu-logout.sh",
         "tooltip": false
     }
   }

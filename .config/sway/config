@@ -105,7 +105,7 @@ bindsym --to-code $mod+Shift+c reload
 
 bindsym --to-code $mod+Shift+r reload
 
-bindsym --to-code $mod+Shift+e exec "~/.config/sway/scripts/dmenu-logout.sh"
+bindsym --to-code $mod+Shift+e exec "~/.config/scripts/dmenu-logout.sh"
 
 mode "resize" {
     bindsym --to-code j resize shrink width 10 px or 10 ppt
@@ -153,9 +153,9 @@ exec while true; do ~/.config/sway/scripts/numlock-notify.sh; sleep 0.5; done
 exec_always sh -c 'pkill -f "wl-paste.*cliphist" 2>/dev/null; wl-paste --type text --watch cliphist store'
 exec_always sh -c 'pkill -f "wl-paste.*cliphist" 2>/dev/null; wl-paste --type image --watch cliphist store'
 
-bindsym XF86AudioRaiseVolume exec ~/.config/sway/scripts/show_notification.sh volume +5%
-bindsym XF86AudioLowerVolume exec ~/.config/sway/scripts/show_notification.sh volume -5%
-bindsym XF86AudioMute exec ~/.config/sway/scripts/show_notification.sh volume --toggle
+bindsym XF86AudioRaiseVolume exec ~/.config/scripts/show_notification.sh volume +5%
+bindsym XF86AudioLowerVolume exec ~/.config/scripts/show_notification.sh volume -5%
+bindsym XF86AudioMute exec ~/.config/scripts/show_notification.sh volume --toggle
 
 # Left monitor (HDMI-A-2): Horizontal bar at top with i3status-rust
 bar {
