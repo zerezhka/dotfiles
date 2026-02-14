@@ -8,6 +8,9 @@
 # Load environment for GUI apps
 exec --no-startup-id sh -c 'export BROWSER=firefox && export PATH="$HOME/.local/bin:$PATH" && export XDG_CURRENT_DESKTOP=i3 && export DESKTOP_SESSION=i3'
 
+# Load X resources (colors, fonts)
+exec --no-startup-id xrdb -merge ~/.Xresources
+
 # background
 exec --no-startup-id feh --bg-fill /usr/share/backgrounds/xfce/red_moon_penger.jpg
 #exec --no-startup-id xsetroot -cursor_name left_ptr
