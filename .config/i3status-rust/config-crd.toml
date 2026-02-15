@@ -57,4 +57,4 @@ command = "echo \uf011 "
 interval = "once"
 [[block.click]]
 button = "left"
-cmd = "~/.config/i3/scripts/dmenu-logout.sh"
+cmd = "~/.config/scripts/dmenu-logout.sh"
