@@ -249,6 +249,7 @@ exec --no-startup-id sh -c 'sleep 3 && setxkbmap -layout us,ru -option grp:alt_s
 
 # [Block] on screen display
 exec --no-startup-id dunst
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id while true; do ~/.config/i3/scripts/capslock-notify.sh; sleep 0.5; done
 exec --no-startup-id while true; do ~/.config/i3/scripts/numlock-notify.sh; sleep 0.5; done
 
