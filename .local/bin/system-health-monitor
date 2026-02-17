@@ -1,0 +1,114 @@
+#!/bin/bash
+# System Health Monitor - Watches for crashes, service failures, and instabilities
+
+# Configuration
+LOG_FILE="$HOME/.local/share/system-health.log"
+NOTIFY_ID=8888
+CHECK_INTERVAL=30  # seconds
+
+# Initialize log
+mkdir -p "$(dirname "$LOG_FILE")"
+touch "$LOG_FILE"
+
+# Get last check timestamp
+LAST_CHECK=$(date -d '30 seconds ago' '+%Y-%m-%d %H:%M:%S' 2>/dev/null || date -r $(($(date +%s) - 30)) '+%Y-%m-%d %H:%M:%S')
+
+log_event() {
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" >> "$LOG_FILE"
+}
+
+notify() {
+    local title="$1"
+    local message="$2"
+    local urgency="${3:-normal}"
+
+    # Send notification
+    dunstify -r "$NOTIFY_ID" -u "$urgency" "$title" "$message"
+
+    # Log event
+    log_event "$title: $message"
+}
+
+# Check for failed systemd services
+check_failed_services() {
+    local failed=$(systemctl --user list-units --state=failed --no-legend 2>/dev/null)
+
+    if [ -n "$failed" ]; then
+        local count=$(echo "$failed" | wc -l)
+        local services=$(echo "$failed" | awk '{print $2}' | head -3 | tr '\n' ', ' | sed 's/,$//')
+        notify "⚠️ System Health Alert" "$count failed service(s): $services" "critical"
+    fi
+}
+
+# Check for D-Bus issues
+check_dbus() {
+    if ! systemctl --user is-active dbus.service >/dev/null 2>&1; then
+        notify "🔴 Critical: D-Bus Failure" "D-Bus service is not running!" "critical"
+        return 1
+    fi
+
+    # Check if D-Bus socket is responding
+    if ! dbus-send --session --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.ListNames >/dev/null 2>&1; then
+        notify "⚠️ D-Bus Warning" "D-Bus not responding to requests" "critical"
+        return 1
+    fi
+}
+
+# Check for recent core dumps
+check_core_dumps() {
+    local recent_dumps=$(coredumpctl list --since "$LAST_CHECK" --no-pager --no-legend 2>/dev/null | wc -l)
+
+    if [ "$recent_dumps" -gt 0 ]; then
+        local latest=$(coredumpctl list --since "$LAST_CHECK" --no-pager --no-legend 2>/dev/null | tail -1)
+        local process=$(echo "$latest" | awk '{print $5}')
+        local signal=$(echo "$latest" | awk '{print $6}')
+
+        notify "💥 Application Crash" "$process crashed ($signal)" "critical"
+    fi
+}
+
+# Check for kernel errors
+check_kernel_errors() {
+    local errors=$(journalctl -k --since "$LAST_CHECK" -p err --no-pager --no-hostname 2>/dev/null | grep -v "^--" | tail -5)
+
+    if [ -n "$errors" ]; then
+        local count=$(echo "$errors" | wc -l)
+        local first_error=$(echo "$errors" | head -1 | cut -c1-80)
+        notify "⚠️ Kernel Error Detected" "$count error(s): $first_error..." "critical"
+    fi
+}
+
+# Check for OOM kills
+check_oom() {
+    local oom=$(journalctl -k --since "$LAST_CHECK" --no-pager 2>/dev/null | grep -iE "out of memory: kill|oom_kill_process|killed process [0-9]+ \(")
+
+    if [ -n "$oom" ]; then
+        notify "🔴 Out of Memory" "OOM killer was triggered!" "critical"
+    fi
+}
+
+# Check GPU errors (NVIDIA)
+check_gpu_errors() {
+    local gpu_errors=$(journalctl --since "$LAST_CHECK" --no-pager 2>/dev/null | grep -i "nvidia.*error\|nvidia.*failed")
+
+    if [ -n "$gpu_errors" ]; then
+        local count=$(echo "$gpu_errors" | wc -l)
+        notify "⚠️ GPU Error" "$count NVIDIA error(s) detected" "normal"
+    fi
+}
+
+# Main monitoring loop
+log_event "System health monitor started"
+
+while true; do
+    LAST_CHECK=$(date '+%Y-%m-%d %H:%M:%S')
+
+    check_failed_services
+    check_dbus
+    check_core_dumps
+    check_kernel_errors
+    check_oom
+    check_gpu_errors
+
+    sleep "$CHECK_INTERVAL"
+done
