@@ -14,10 +14,8 @@
     # Show how many messages are currently hidden
     indicate_hidden = yes
 
-    # Shrink window if smaller than width
-    shrink = yes
-
     # Visual settings (glassmorphism / liquid glass)
+    layer = overlay
     frame_width = 1
     frame_color = "#ffffff30"
     separator_color = "#ffffff20"
