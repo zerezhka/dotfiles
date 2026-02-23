@@ -13,7 +13,7 @@ fi
 if [ -f "$state_file" ]; then
     previous_layout=$(cat "$state_file")
     if [ "$previous_layout" != "$layout_name" ]; then
-        dunstify -r 8888 -a "Keyboard" -u low -t 1000 "$current_layout" 2>/dev/null
+        dunstify -r 8888 -a "Keyboard" -u normal -t 2000 "Layout" "$current_layout" 2>/dev/null
     fi
 fi
 
