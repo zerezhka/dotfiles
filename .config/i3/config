@@ -48,7 +48,8 @@ bindsym $mod+Return exec alacritty
 
 # scrot
 #bindsym --release $mod+s exec "scrot -s"
-bindsym $mod+Shift+s exec sh -c 'xfce4-screenshooter -r -c && notify-send "Screenshot saved to clipboard"'
+bindsym --release $mod+Shift+s exec sh -c 'import /tmp/screenshot.png && xclip -selection clipboard -t image/png -i /tmp/screenshot.png && notify-send "Screenshot saved to clipboard"'
+bindsym --release Print exec sh -c 'import -window root /tmp/screenshot.png && xclip -selection clipboard -t image/png -i /tmp/screenshot.png && notify-send "Screenshot saved to clipboard"'
 
 # kill focused window
 bindsym $mod+Shift+q kill
