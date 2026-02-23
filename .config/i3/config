@@ -223,6 +223,10 @@ client.unfocused        #1e1e1e #1e1e1e #666666 #1e1e1e   #1e1e1e
 client.urgent           #cc241d #cc241d #ffffff #cc241d   #cc241d
 client.background       #1e1e1e
 
+# Lock key notifications (polled every 0.5s)
+exec --no-startup-id sh -c 'while true; do ~/.config/i3/scripts/capslock-notify.sh; sleep 0.5; done'
+exec --no-startup-id sh -c 'while true; do ~/.config/i3/scripts/numlock-notify.sh; sleep 0.5; done'
+
 ## lang switch from chatGPT
 #exec --no-startup-id setxkbmap -layout us,ru -option grp:alt_shift_toggle
 exec --no-startup-id sh -c 'sleep 3 && setxkbmap -layout us,ru -option grp:alt_shift_toggle'
