@@ -178,7 +178,14 @@ bar {
     tray_output primary
     font pango:Iosevka Nerd Font 14
     colors {
-        background #073642
+        background #1e1e1e
+        statusline #d4d4d4
+        separator #666666
+
+        focused_workspace  #0e639c #0e639c #ffffff
+        active_workspace   #333333 #5f676a #ffffff
+        inactive_workspace #1e1e1e #1e1e1e #888888
+        urgent_workspace   #cc241d #cc241d #ffffff
     }
 }
 
@@ -206,6 +213,14 @@ exec --no-startup-id xidlehook --not-when-fullscreen --not-when-audio \
 focus_follows_mouse no
 
 hide_edge_borders both
+
+# Window colors
+# class                 border  backgr. text    indicator child_border
+client.focused          #094560 #094560 #d4d4d4 #0e639c   #094560
+client.focused_inactive #1e1e1e #1e1e1e #888888 #1e1e1e   #1e1e1e
+client.unfocused        #1e1e1e #1e1e1e #666666 #1e1e1e   #1e1e1e
+client.urgent           #cc241d #cc241d #ffffff #cc241d   #cc241d
+client.background       #1e1e1e
 
 ## lang switch from chatGPT
 #exec --no-startup-id setxkbmap -layout us,ru -option grp:alt_shift_toggle

@@ -1,5 +1,5 @@
 [theme]
-theme =  "solarized-dark"
+theme = "gruvbox-dark"
 
 [icons]
 icons = "awesome4"
@@ -52,6 +52,9 @@ block = "battery"
 device = "BAT1"
 format = "$icon $percentage $time"
 interval = 5
+[block.theme_overrides]
+good_fg = "#689d6a"
+good_bg = "#1e1e1e"
 
 
 [[block]]
