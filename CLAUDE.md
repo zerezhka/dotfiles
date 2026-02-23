@@ -141,3 +141,11 @@ pacman -Qqm > pkglist-aur.txt
 - Notification daemon: `dunst` (launched by both i3 and Sway configs)
 - Terminal: `alacritty` (Mod4+Return in both WMs)
 - Application launcher: `i3-dmenu-desktop` (Mod4+d in both WMs)
+
+## Personal Notes
+
+### Desktop Background
+
+The Sway background (`/usr/share/backgrounds/xfce/red_moon_penger.jpg`) features **Penger** - a pixel art penguin character on red/orange sand dunes with a moon. Despite the filename containing "red_moon", the image is NOT solid red - it's a beautiful desert landscape scene with blue sky, moon, and the beloved Penger character.
+
+**Source**: https://penger.city/wallpapers/redmoon_penger.jpg
