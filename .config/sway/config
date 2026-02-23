@@ -164,9 +164,9 @@ client.unfocused        #1e1e1e #1e1e1e #666666 #1e1e1e   #1e1e1e
 client.urgent           #cc241d #cc241d #ffffff #cc241d   #cc241d
 client.background       #1e1e1e
 
-# Lock key notifications (polled every 0.5s, restarts on reload)
-exec_always sh -c 'pkill -f "capslock-notify.sh" 2>/dev/null; while true; do ~/.config/sway/scripts/capslock-notify.sh; sleep 0.5; done'
-exec_always sh -c 'pkill -f "numlock-notify.sh" 2>/dev/null; while true; do ~/.config/sway/scripts/numlock-notify.sh; sleep 0.5; done'
+# Lock key notifications
+exec while true; do ~/.config/sway/scripts/capslock-notify.sh; sleep 0.5; done
+exec while true; do ~/.config/sway/scripts/numlock-notify.sh; sleep 0.5; done
 
 # Floating windows
 for_window [app_id="pavucontrol"] floating enable, resize set 600 400, move position cursor, move up 200px, move left 300px
