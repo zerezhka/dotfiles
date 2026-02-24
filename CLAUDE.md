@@ -1,181 +1,43 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Personal Arch Linux dotfiles for i3 (X11) and Sway (Wayland) — configs are symlinked to `~`.
 
-## Repository Overview
+## Structure
 
-This is a personal Arch Linux dotfiles repository managing configurations for i3/Sway window managers, system services, and environment setup. The repository tracks configuration files that are typically symlinked to their proper locations in the home directory.
+| Path | Purpose |
+|------|---------|
+| `.config/i3/config` | i3 window manager |
+| `.config/sway/config` | Sway compositor |
+| `.config/i3status-rust/` | Status bar (TOML, separate configs per WM) |
+| `.config/environment.d/wayland.conf` | Wayland session env vars |
+| `environment` | X11 session env vars |
+| `.xprofile` | X11 session startup |
+| `pkglist.txt` / `pkglist-aur.txt` | Installed packages |
+| `grub/default` | GRUB config (Vimix theme) |
 
-## Architecture
+## Key Design Decisions
 
-### Window Manager Setup (Dual Environment)
+- **Both WMs use Mod4** (Super) as `$mod`, `pango:Iosevka` fonts
+- **Sway uses `--to-code`** on bindsym for layout-independent keybindings
+- **Keep i3/Sway keybindings in sync** where possible
+- **Env vars**: Wayland → `environment.d/wayland.conf`, X11 → `environment` or `.xprofile`
+- **`~/.local/bin/xdg-open`**: custom replacement launching Chromium directly (avoids slow D-Bus in i3)
 
-The repository supports **both X11 (i3) and Wayland (Sway)** environments with parallel configurations:
+## Keyboard Layout (Critical)
 
-- **i3 (X11)**: `.config/i3/config` - X11-based tiling window manager
-- **Sway (Wayland)**: `.config/sway/config` - Wayland compositor (i3-compatible)
+US/RU layout with Alt+Shift toggle — breaks after upgrades. Redundant fallbacks:
+1. Sway: `input type:keyboard` in `.config/sway/config:9-12`
+2. i3: `setxkbmap` calls in config + `.xprofile`
+3. Systemd user service: `.config/systemd/user/keyboard-layout.service`
+4. Script: `.local/bin/setup-keyboard-layout`
 
-Both environments share similar keybindings and workflow but have environment-specific configurations:
-- Screenshot tools: `xfce4-screenshooter` (i3) vs `grim + slurp` (Sway)
-- Lock screen: `light-locker` (i3) vs `swaylock` (Sway)
-- Background: `feh` (i3) vs `swaybg` (Sway)
-- Status bar: Both use `i3status-rust` with separate config files
+## Screensaver Stack
 
-### Environment Configuration
+- **Screensaver**: `.local/bin/flux-desktop` (custom binary, exits on any key/click)
+- **i3**: `xidlehook` → flux at 5min, `betterlockscreen` at 10min
+- **Sway**: `swayidle` → flux at 5min, `swaylock` at 10min, DPMS off at 15min
+- Manual lock: `Mod+Shift+L`
 
-Environment variables are managed in multiple locations for different session types:
+## Notifications
 
-1. **`.config/environment.d/wayland.conf`**: Wayland/Sway session variables
-   - Sets Electron apps to use Wayland (`ELECTRON_OZONE_PLATFORM_HINT=wayland`)
-   - Configures Qt, Firefox for native Wayland
-   - Uses Vulkan renderer for Sway
-
-2. **`environment`**: Global X11/i3 environment variables
-   - Sets `BROWSER=chromium`, desktop session variables
-   - Adds `~/.local/bin` to PATH
-
-3. **`.xprofile`**: X11 session startup (loaded by display managers)
-   - Conditional i3-specific setup
-   - Keyboard layout initialization
-
-### Keyboard Layout Management
-
-Persistent keyboard layout (US/RU with Alt+Shift toggle) is a **critical issue** that breaks after system upgrades. Multiple fallback mechanisms:
-
-1. Sway: Built-in `input type:keyboard` config (`.config/sway/config:9-12`)
-2. i3: Multiple redundant calls to `setxkbmap` in config and `.xprofile`
-3. Systemd service: `.config/systemd/user/keyboard-layout.service` (i3 only)
-4. Helper script: `.local/bin/setup-keyboard-layout`
-
-### Screensaver/Screen Locking
-
-The repository includes custom screensaver configuration for both i3 and Sway:
-
-**Flux Screensaver** (both i3 and Sway):
-- Custom flux-desktop binary: `.local/bin/flux-desktop` (8.3MB ELF executable)
-- Modified to exit on any key press or mouse click (not just Escape)
-- Works on both X11 and Wayland
-
-**i3 (X11)**:
-- Uses `xidlehook` configured in `.config/i3/config:235`:
-  - Flux screensaver after 300 seconds (5 min)
-  - Lock screen after 600 seconds (10 min) - betterlockscreen draws over flux
-  - Flux killed on unlock (resume)
-- Respects fullscreen and audio playback (won't activate during videos/music)
-- Manual lock: Mod+Shift+L (shows locker background, no flux)
-
-**Sway (Wayland)**:
-- Uses `swayidle` configured in `.config/sway/config:149`:
-  - Flux screensaver after 300 seconds (5 min)
-  - Lock screen after 600 seconds (10 min) - swaylock draws over flux
-  - DPMS off after 900 seconds (15 min)
-  - Flux killed on resume or before sleep
-- Custom swaylock config: `.config/swaylock/config`
-- Features: clock display, blurred screenshot, vibrant colors, centered layout
-- Manual lock: Mod+Shift+L (shows locker background, no flux)
-
-To restore on new system:
-```bash
-# Copy binaries (works for both i3 and Sway)
-cp .local/bin/flux-desktop ~/.local/bin/
-chmod +x ~/.local/bin/flux-desktop
-
-# Sway: Copy swaylock config
-mkdir -p ~/.config/swaylock
-cp .config/swaylock/config ~/.config/swaylock/config
-```
-
-### Helper Scripts
-
-**`.config/{i3,sway}/scripts/show_notification.sh`**: Unified notification system for brightness, volume, battery, wifi status. Uses `dunstify` with replacement ID 9999 to avoid notification spam.
-
-**`.config/{i3,sway}/scripts/dmenu-logout.sh`**: Session logout menu
-
-**`.local/bin/xdg-open`**: Custom xdg-open replacement that directly launches Chromium for URLs, avoiding slow D-Bus lookups in i3 (performance optimization)
-
-### Package Management
-
-- **`pkglist.txt`**: Official Arch packages (128 packages)
-- **`pkglist-aur.txt`**: AUR packages (70 packages, heavily includes GRUB themes)
-
-To restore packages on a new system:
-```bash
-sudo pacman -S --needed - < pkglist.txt
-yay -S --needed - < pkglist-aur.txt
-```
-
-### GRUB Configuration
-
-**`grub/default`**: GRUB bootloader config with Vimix theme
-
-To apply on new system:
-```bash
-yay -S grub-theme-vimix-whitesur-1080p-git
-sudo cp grub/default /etc/default/grub
-sudo grub-mkconfig -o /boot/grub/grub.cfg
-```
-
-## Key Commands
-
-### Window Manager Operations
-
-**Reload i3 config:**
-```bash
-i3-msg reload  # or Mod4+Shift+c
-```
-
-**Reload Sway config:**
-```bash
-swaymsg reload  # or Mod4+Shift+c
-```
-
-**Test notification system:**
-```bash
-~/.config/i3/scripts/show_notification.sh volume +5%
-~/.config/sway/scripts/show_notification.sh brightness +10%
-```
-
-### Git Operations
-
-This repository uses standard git workflow. Current status shows:
-- Modified: `.config/sway/config`
-- Deleted: `.local/share/applications/cursor.desktop`
-- Untracked: `.config/environment.d/`
-
-### Package List Updates
-
-When updating package lists after installing/removing software:
-```bash
-pacman -Qqe | grep -v "$(pacman -Qqm)" > pkglist.txt
-pacman -Qqm > pkglist-aur.txt
-```
-
-## Important Implementation Notes
-
-### When Editing Window Manager Configs
-
-1. **Keybindings**: i3 and Sway configs should be kept in sync for keybindings where possible
-2. **--to-code flag**: Used in Sway for layout-independent keybindings (`.config/sway/config`)
-3. **Both configs use Mod4** (Super/Windows key) as `$mod`
-4. **Font**: Both use `pango:Iosevka` family fonts
-
-### When Editing Helper Scripts
-
-1. Scripts in `.config/i3/scripts/` and `.config/sway/scripts/` are **environment-specific**
-2. The `show_notification.sh` script uses different commands:
-   - Brightness: `brightnessctl`
-   - Volume: `pactl` (PipeWire/PulseAudio)
-   - Uses `dunstify -r 9999` to replace previous notifications
-
-### When Working with Environment Variables
-
-1. Wayland variables go in `.config/environment.d/wayland.conf`
-2. X11 variables go in `environment` or `.xprofile`
-3. PATH modifications should be added to `.xprofile` to ensure `~/.local/bin` scripts are available
-
-### System Integration
-
-- Status bar uses `i3status-rust` with TOML configs in `.config/i3status-rust/`
-- Notification daemon: `dunst` (launched by both i3 and Sway configs)
-- Terminal: `alacritty` (Mod4+Return in both WMs)
-- Application launcher: `i3-dmenu-desktop` (Mod4+d in both WMs)
+`.config/{i3,sway}/scripts/show_notification.sh` — brightness/volume/battery/wifi via `dunstify -r 9999`.
