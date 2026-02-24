@@ -4,6 +4,7 @@ chrome-remote-desktop
 claude-code
 crunch-git
 cursor-bin
+gputest
 grub-customizer
 grub-theme-vimix-whitesur-1080p-git
 gtk-engine-murrine
