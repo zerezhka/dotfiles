@@ -69,7 +69,7 @@ check_core_dumps() {
 
 # Check for kernel errors
 check_kernel_errors() {
-    local errors=$(journalctl -k --since "$LAST_CHECK" -p err --no-pager --no-hostname 2>/dev/null | grep -v "^--" | tail -5)
+    local errors=$(journalctl -b 0 -k --since "$LAST_CHECK" -p err --no-pager --no-hostname 2>/dev/null | grep -v "^--\|iwlwifi\|WFPM\|CNVI\|rfid\|Detected.*RF\|base HW address" | tail -5)
 
     if [ -n "$errors" ]; then
         local count=$(echo "$errors" | wc -l)
@@ -80,7 +80,7 @@ check_kernel_errors() {
 
 # Check for OOM kills
 check_oom() {
-    local oom=$(journalctl -k --since "$LAST_CHECK" --no-pager 2>/dev/null | grep -iE "out of memory: kill|oom_kill_process|killed process [0-9]+ \(")
+    local oom=$(journalctl -b 0 -k --since "$LAST_CHECK" --no-pager 2>/dev/null | grep -iE "out of memory: kill|oom_kill_process|killed process [0-9]+ \(")
 
     if [ -n "$oom" ]; then
         notify "🔴 Out of Memory" "OOM killer was triggered!" "critical"
@@ -89,7 +89,7 @@ check_oom() {
 
 # Check GPU errors (NVIDIA)
 check_gpu_errors() {
-    local gpu_errors=$(journalctl --since "$LAST_CHECK" --no-pager 2>/dev/null | grep -i "nvidia.*error\|nvidia.*failed")
+    local gpu_errors=$(journalctl -b 0 --since "$LAST_CHECK" --no-pager 2>/dev/null | grep -i "nvidia.*error\|nvidia.*failed")
 
     if [ -n "$gpu_errors" ]; then
         local count=$(echo "$gpu_errors" | wc -l)
