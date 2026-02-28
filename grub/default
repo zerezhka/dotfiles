@@ -1,10 +1,11 @@
 # GRUB boot loader configuration
 
-GRUB_DEFAULT="gnulinux-advanced-d569add3-c261-4f5f-b58d-3a50e154c9c5>gnulinux-linux-advanced-d569add3-c261-4f5f-b58d-3a50e154c9c5"
+GRUB_DEFAULT="gnulinux-simple-d569add3-c261-4f5f-b58d-3a50e154c9c5"
+GRUB_TOP_LEVEL="/boot/vmlinuz-linux"
 GRUB_TIMEOUT='5'
 GRUB_DISTRIBUTOR='EndeavourOS'
 #GRUB_CMDLINE_LINUX_DEFAULT=' nvme_load=YES resume=UUID=7a4daae9-9dc0-46c2-a409-75c60bf81118 nvidia_drm.modeset=1 nvidia.NVreg_PreserveVideoMemoryAllocations=1 loglevel=3 nvme_core.default_ps_max_latency_us=0'
-GRUB_CMDLINE_LINUX_DEFAULT=' nvme_load=YES resume=UUID=7a4daae9-9dc0-46c2-a409-75c60bf81118 loglevel=3 nvme_core.default_ps_max_latency_us=0 rootflags=,nodiscard'
+GRUB_CMDLINE_LINUX_DEFAULT=' nvme_load=YES resume=UUID=7a4daae9-9dc0-46c2-a409-75c60bf81118 loglevel=3 nvme_core.default_ps_max_latency_us=0'
 GRUB_CMDLINE_LINUX=""
 
 # Preload both GPT and MBR modules so that they are not missed
