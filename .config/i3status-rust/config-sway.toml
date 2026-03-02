@@ -65,5 +65,5 @@ command = "echo \uf011 "
 interval = "once"
 [[block.click]]
 button = "left"
-cmd = "~/.config/sway/scripts/dmenu-logout.sh"
+cmd = "~/.config/scripts/dmenu-logout.sh"
 
