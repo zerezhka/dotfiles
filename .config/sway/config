@@ -153,6 +153,11 @@ exec while true; do ~/.config/sway/scripts/numlock-notify.sh; sleep 0.5; done
 exec_always sh -c 'pkill -f "wl-paste.*cliphist" 2>/dev/null; wl-paste --type text --watch cliphist store'
 exec_always sh -c 'pkill -f "wl-paste.*cliphist" 2>/dev/null; wl-paste --type image --watch cliphist store'
 
+# Whisper voice input (toggle record/transcribe)
+bindsym --to-code $mod+Shift+t exec ~/.local/bin/whisper-input
+bindsym --to-code $mod+t exec ~/.local/bin/whisper-input --hold
+bindsym --to-code --release $mod+t exec ~/.local/bin/whisper-input --stop
+
 bindsym XF86AudioRaiseVolume exec ~/.config/scripts/show_notification.sh volume +5%
 bindsym XF86AudioLowerVolume exec ~/.config/scripts/show_notification.sh volume -5%
 bindsym XF86AudioMute exec ~/.config/scripts/show_notification.sh volume --toggle

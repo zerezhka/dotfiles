@@ -27,6 +27,8 @@ sing-geoip-db
 swaylock-effects
 throne-bin
 unityhub
+whisper.cpp-cuda
+whisper.cpp-model-large-v3-turbo
 whitesur-gtk-theme
 xidlehook
 xkb-switch-git

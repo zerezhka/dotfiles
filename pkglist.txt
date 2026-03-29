@@ -321,6 +321,7 @@ vulkan-tools
 waybar
 welcome
 wget
+wtype
 which
 whitesur-gtk-theme
 wine

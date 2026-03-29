@@ -1,0 +1,95 @@
+#!/bin/bash
+# Voice input using Whisper speech-to-text.
+# Usage:
+#   whisper-input          Toggle: first call starts recording, second stops and transcribes
+#   whisper-input --hold   Start recording (for hold-to-record, bind to key press)
+#   whisper-input --stop   Stop recording and transcribe (bind to key release)
+# Supports Russian and English (auto-detect). Uses GPU via whisper.cpp CUDA.
+
+PIDFILE="/tmp/whisper-input.pid"
+WAVFILE="/tmp/whisper-input.wav"
+NOTIFY_ID=9990
+
+# Check dependencies before doing anything
+for cmd in ffmpeg whisper-cli dunstify; do
+    if ! command -v "$cmd" &>/dev/null; then
+        dunstify -r 9990 -t 3000 "whisper-input: $cmd not found" 2>/dev/null \
+            || notify-send "whisper-input: $cmd not found"
+        exit 1
+    fi
+done
+
+# Find model: prefer quantized, fall back to full
+find_model() {
+    local dirs=("/usr/share/whisper.cpp-model-large-v3-turbo" "/usr/share/whisper.cpp/models" "$HOME/.local/share/whisper.cpp/models")
+    local names=("ggml-large-v3-turbo-q5_0.bin" "ggml-large-v3-turbo.bin")
+    for dir in "${dirs[@]}"; do
+        for name in "${names[@]}"; do
+            [ -f "$dir/$name" ] && echo "$dir/$name" && return
+        done
+    done
+    return 1
+}
+
+# Type text at cursor position
+type_text() {
+    if [ -n "$WAYLAND_DISPLAY" ]; then
+        wtype -- "$1"
+    else
+        xdotool type --clearmodifiers -- "$1"
+    fi
+}
+
+start_recording() {
+    rm -f "$WAVFILE" "$PIDFILE"
+    ffmpeg -y -loglevel error -f pulse -i default -ar 16000 -ac 1 "$WAVFILE" &
+    echo $! > "$PIDFILE"
+    dunstify -r $NOTIFY_ID -t 0 "🎙 Recording..."
+}
+
+stop_and_transcribe() {
+    [ -f "$PIDFILE" ] && kill "$(cat "$PIDFILE")" 2>/dev/null
+    rm -f "$PIDFILE"
+    dunstify -r $NOTIFY_ID -t 0 "🎙 Transcribing..."
+
+    MODEL=$(find_model)
+    if [ -z "$MODEL" ]; then
+        dunstify -r $NOTIFY_ID -t 3000 "Error: Whisper model not found"
+        rm -f "$WAVFILE"
+        exit 1
+    fi
+
+    LANG_FLAG="${WHISPER_LANG:-auto}"
+    text=$(whisper-cli -m "$MODEL" -f "$WAVFILE" --no-timestamps -l "$LANG_FLAG" 2>/dev/null | sed '/^$/d' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+
+    if [ -n "$text" ]; then
+        type_text "$text"
+        dunstify -r $NOTIFY_ID -t 2000 "✓ ${text:0:80}"
+    else
+        dunstify -r $NOTIFY_ID -t 2000 "No speech detected"
+    fi
+    rm -f "$WAVFILE"
+}
+
+is_recording() {
+    [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null
+}
+
+case "${1:-}" in
+    --hold)
+        start_recording
+        ;;
+    --stop)
+        if is_recording; then
+            stop_and_transcribe
+        fi
+        ;;
+    *)
+        # Toggle mode
+        if is_recording; then
+            stop_and_transcribe
+        else
+            start_recording
+        fi
+        ;;
+esac
