@@ -28,6 +28,10 @@ yay -S --needed - < pkglist-aur.txt
 sudo cp grub/default /etc/default/grub
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
+# Fix GRUB resolution if pre-boot screen shows lower than 1080p
+sudo sed -i 's/GRUB_GFXMODE=auto/GRUB_GFXMODE=1920x1080x32/' /etc/default/grub
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+
 # Reload your window manager or log out/in
 ```
 
