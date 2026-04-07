@@ -22,11 +22,13 @@ notify() {
     local message="$2"
     local urgency="${3:-normal}"
 
-    # Send notification
-    dunstify -r "$NOTIFY_ID" -u "$urgency" "$title" "$message"
-
-    # Log event
+    # Log event regardless of notification daemon availability
     log_event "$title: $message"
+
+    # Skip notification if no daemon is running (e.g. CRD session, startup race)
+    if dbus-send --session --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.GetNameOwner string:org.freedesktop.Notifications >/dev/null 2>&1; then
+        dunstify -r "$NOTIFY_ID" -u "$urgency" "$title" "$message"
+    fi
 }
 
 # Check for failed systemd services
