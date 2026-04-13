@@ -1,7 +1,7 @@
 [Unit]
 Description=System Health Monitor
 Documentation=man:systemd.service(5)
-After=graphical-session.target
+After=graphical-session.target dunst.service
 
 [Service]
 Type=simple
