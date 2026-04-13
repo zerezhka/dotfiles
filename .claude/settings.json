@@ -6,5 +6,7 @@
   },
   "enabledPlugins": {
     "ralph-loop@claude-plugins-official": true
-  }
+  },
+  "effortLevel": "medium",
+  "model": "sonnet"
 }
