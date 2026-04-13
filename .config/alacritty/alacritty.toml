@@ -49,3 +49,8 @@ action = "Copy"
 key = "С"
 mods = "Control|Shift"
 action = "Copy"
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"
