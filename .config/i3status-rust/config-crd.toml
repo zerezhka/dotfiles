@@ -17,6 +17,9 @@ cmd = "rofi -show drun"
 block = "keyboard_layout"
 interval = 1
 format = "$layout"
+[[block.click]]
+button = "left"
+cmd = "xkb-switch -n"
 
 # Ethernet
 [[block]]
