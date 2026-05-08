@@ -3,3 +3,4 @@
 
 # Claude Code local settings
 .claude/settings*.json
+.claude/scheduled_tasks.lock
