@@ -22,17 +22,25 @@ notify() {
     local message="$2"
     local urgency="${3:-normal}"
 
-    # Log event regardless of notification daemon availability
+    # Log event always
     log_event "$title: $message"
 
-    # Skip notification if no daemon is running (e.g. CRD session, startup race)
-    if dbus-send --session --dest=org.freedesktop.DBus --type=method_call --print-reply /org/freedesktop/DBus org.freedesktop.DBus.GetNameOwner string:org.freedesktop.Notifications >/dev/null 2>&1; then
-        dunstify -r "$NOTIFY_ID" -u "$urgency" "$title" "$message"
+    # Send desktop notification only if graphical session is up
+    if systemctl --user -q is-active graphical-session.target 2>/dev/null; then
+        dunstify -r "$NOTIFY_ID" -u "$urgency" "$title" "$message" 2>/dev/null
     fi
 }
 
 # Check for failed systemd services
 check_failed_services() {
+    # Auto-reset failed transient dbus-activated services (e.g. Telegram after crash)
+    local transient_failed=$(systemctl --user list-units --state=failed --no-legend 2>/dev/null | grep 'dbus-.*@.*\.service')
+    if [ -n "$transient_failed" ]; then
+        echo "$transient_failed" | awk '{print $2}' | while read -r svc; do
+            systemctl --user reset-failed "$svc" 2>/dev/null
+        done
+    fi
+
     local failed=$(systemctl --user list-units --state=failed --no-legend 2>/dev/null)
 
     if [ -n "$failed" ]; then
@@ -99,8 +107,26 @@ check_gpu_errors() {
     fi
 }
 
+# GPU PCIe link width check (one-shot at startup — width is fixed at PCI training,
+# does not change at runtime; downgrade indicates damaged CPU/socket PCIe lanes)
+check_gpu_pcie_width() {
+    command -v nvidia-smi >/dev/null 2>&1 || return
+    local widths
+    widths=$(nvidia-smi --query-gpu=pcie.link.width.current,pcie.link.width.max --format=csv,noheader,nounits 2>/dev/null | head -1)
+    [ -z "$widths" ] && return
+    local current max
+    current=$(echo "$widths" | awk -F', ' '{print $1}' | tr -d ' ')
+    max=$(echo "$widths" | awk -F', ' '{print $2}' | tr -d ' ')
+    [[ "$current" =~ ^[0-9]+$ ]] || return
+    [[ "$max" =~ ^[0-9]+$ ]] || return
+    if [ "$current" -lt "$max" ]; then
+        notify "🔴 GPU PCIe Width Downgrade" "GPU at x${current} (capable x${max}) — likely AM5 socket pin damage" "critical"
+    fi
+}
+
 # Main monitoring loop
 log_event "System health monitor started"
+check_gpu_pcie_width
 
 while true; do
     LAST_CHECK=$(date '+%Y-%m-%d %H:%M:%S')
