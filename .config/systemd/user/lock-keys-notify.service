@@ -1,0 +1,12 @@
+[Unit]
+Description=Lock key (CapsLock/NumLock) OSD notifications
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+ExecStart=%h/.config/scripts/lock-keys-monitor.sh
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target
