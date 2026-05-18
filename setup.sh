@@ -49,8 +49,12 @@ link_file() {
 
         if [[ "$FORCE" == true ]]; then
             mkdir -p "$BACKUP_DIR"
+            # Preserve directory structure in backup so nested files don't collide
+            local rel="${dest#$HOME/}"
+            local backup_path="$BACKUP_DIR/$rel"
+            mkdir -p "$(dirname "$backup_path")"
             echo -e "${YELLOW}→${NC} Backing up: $dest"
-            mv "$dest" "$BACKUP_DIR/"
+            mv "$dest" "$backup_path"
         else
             echo -e "${RED}✗${NC} Already exists: $dest (use --force to backup and replace)"
             return
@@ -59,6 +63,33 @@ link_file() {
 
     ln -sf "$src" "$dest"
     echo -e "${GREEN}✓${NC} Linked: $dest -> $src"
+}
+
+# Symlink each entry inside a config dir individually, instead of the dir itself.
+# This preserves local files (e.g. hypr/local.conf) that aren't tracked in the repo.
+link_dir_contents() {
+    local src_dir="$1"
+    local dest_dir="$2"
+
+    if [[ ! -d "$src_dir" ]]; then
+        return
+    fi
+
+    mkdir -p "$dest_dir"
+
+    # If dest is currently a symlink to the source dir, replace with per-file links
+    # so users can drop local files alongside without them ending up in the repo.
+    if [[ -L "$dest_dir" ]]; then
+        echo -e "${YELLOW}→${NC} Converting dir-symlink to per-file symlinks: $dest_dir"
+        rm "$dest_dir"
+        mkdir -p "$dest_dir"
+    fi
+
+    local entry
+    for entry in "$src_dir"/* "$src_dir"/.[!.]*; do
+        [[ -e "$entry" ]] || continue
+        link_file "$entry" "$dest_dir/$(basename "$entry")"
+    done
 }
 
 # Config directories to symlink
@@ -80,13 +111,14 @@ CONFIG_DIRS=(
 
 echo -e "${GREEN}Linking config directories...${NC}"
 for dir in "${CONFIG_DIRS[@]}"; do
-    link_file "$DOTFILES_DIR/.config/$dir" "$HOME/.config/$dir"
+    link_dir_contents "$DOTFILES_DIR/.config/$dir" "$HOME/.config/$dir"
 done
 
 # Root dotfiles to symlink
 ROOT_DOTFILES=(
     ".xprofile"
     ".Xresources"
+    ".vimrc"
     ".emacs"
     ".emacs.custom.el"
     ".emacs.local"
@@ -106,11 +138,11 @@ if [[ -f "$DOTFILES_DIR/environment" ]]; then
     link_file "$DOTFILES_DIR/environment" "$HOME/environment"
 fi
 
-# Link .local/bin if it exists
+# Link .local/bin if it exists (per-file, so user scripts in ~/.local/bin survive)
 if [[ -d "$DOTFILES_DIR/.local/bin" ]]; then
     echo ""
     echo -e "${GREEN}Linking local binaries...${NC}"
-    link_file "$DOTFILES_DIR/.local/bin" "$HOME/.local/bin"
+    link_dir_contents "$DOTFILES_DIR/.local/bin" "$HOME/.local/bin"
 fi
 
 echo ""
