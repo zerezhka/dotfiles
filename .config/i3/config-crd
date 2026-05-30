@@ -236,6 +236,7 @@ exec --no-startup-id sh -c 'sleep 3 && setxkbmap -layout us,ru -option grp:win_s
 
 # [Block] on screen display
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id systemctl --user import-environment DISPLAY XAUTHORITY DBUS_SESSION_BUS_ADDRESS
 exec --no-startup-id systemctl --user start lock-keys-notify.service
 
 # Volume
