@@ -31,6 +31,10 @@ workspace 10 output HDMI-A-1
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway BROWSER=firefox PATH
 exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP BROWSER PATH
 
+# Lock-key (CapsLock/NumLock) OSD notifications — Sway doesn't reach
+# graphical-session.target, so start the unified service explicitly (cf. i3 config)
+exec systemctl --user start lock-keys-notify.service
+
 exec_always sh -c 'pkill swaybg; sleep 0.1; swaybg -m fill -i /usr/share/backgrounds/xfce/red_moon_penger.jpg &'
 
 bindsym $mod+Return exec alacritty

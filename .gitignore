@@ -4,3 +4,12 @@
 # Claude Code local settings
 .claude/settings*.json
 .claude/scheduled_tasks.lock
+
+# Hang/crash diagnostic artifacts — machine-local, not worth tracking
+*.bin
+pc-hang-*.log
+docs/investigation-reboot-*.md
+
+# Local infra notes & machine-specific services
+docs/home-proxmox*.md
+.config/systemd/user/openclaw-gateway.service
