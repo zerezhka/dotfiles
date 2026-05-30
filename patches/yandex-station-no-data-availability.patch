@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Sergey <sergey@local>
+Date: Sun, 31 May 2026 03:31:00 +0500
+Subject: [PATCH] Treat Yandex no_data devices as available
+
+Yandex IoT can return `state: no_data` for devices that still have valid
+capability/property state, for example an AC reporting on/off, target
+temperature, current temperature, and modes. Initial entity creation treats
+all states except `offline` as available, but update handling only accepted
+`online` and `unknown`, causing the entity to become unavailable on the first
+cloud refresh.
+
+Keep update availability consistent with initial availability: only
+`offline` means unavailable.
+---
+ custom_components/yandex_station/core/entity.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/custom_components/yandex_station/core/entity.py b/custom_components/yandex_station/core/entity.py
+index 0000000..0000000 100644
+--- a/custom_components/yandex_station/core/entity.py
++++ b/custom_components/yandex_station/core/entity.py
+@@ -77,7 +77,7 @@ class YandexEntity(Entity):
+         self.quasar.subscribe_update(device["id"], self.on_update)
+ 
+     def on_update(self, device: dict):
+-        self._attr_available = device["state"] in ("online", "unknown")
++        self._attr_available = device.get("state") != "offline"
+ 
+         self.internal_update(
+             extract_state(device["capabilities"]) if "capabilities" in device else {},
+-- 
+2.49.0
