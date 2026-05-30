@@ -11,6 +11,7 @@ call plug#begin('~/.vim/plugged')
 call plug#end()
 
 " --- Appearance ---
+set number
 if has('termguicolors')
   set termguicolors
 endif
