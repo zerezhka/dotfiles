@@ -36,7 +36,7 @@ format = "  $ssid "
 interval = 5
 [[block.click]]
 button = "right"
-cmd = "~/.config/i3/scripts/show_notification.sh wifi"
+cmd = "~/.config/scripts/show_notification.sh wifi"
 [[block.click]]
 button="left"
 cmd = "nm-connection-editor"

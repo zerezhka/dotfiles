@@ -78,7 +78,7 @@
 
     "network#ethernet": {
         "interface": "enp6s0",
-        "format-ethernet": "󰈀 {bandwidthUpBytes} ↓{bandwidthDownBytes}",
+        "format-ethernet": "󰈀 ↑{bandwidthUpBytes} ↓{bandwidthDownBytes}",
         "format-disconnected": "",
         "tooltip-format": "{ipaddr}/{cidr}",
         "interval": 2
@@ -86,10 +86,12 @@
 
     "network#wifi": {
         "interface": "wlan0",
-        "format-wifi": "󰖩 {essid}",
-        "format-disconnected": "",
+        "format-wifi": "󰖩 {essid} ↑{bandwidthUpBytes} ↓{bandwidthDownBytes}",
+        "format-disconnected": "󰖪",
+        "tooltip-format-disconnected": "Disconnected — click to connect",
         "tooltip-format": "{essid} ({signalStrength}%)",
-        "on-click": "~/.config/sway/scripts/network_manager.sh"
+        "on-click": "~/.config/scripts/network_manager.sh",
+        "interval": 2
     },
 
     "bluetooth": {

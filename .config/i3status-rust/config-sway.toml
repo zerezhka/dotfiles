@@ -38,10 +38,10 @@ format = "$icon $ssid "
 interval = 5
 [[block.click]]
 button = "right"
-cmd = "~/.config/sway/scripts/show_notification.sh wifi"
+cmd = "~/.config/scripts/show_notification.sh wifi"
 [[block.click]]
 button="left"
-cmd = "~/.config/sway/scripts/network_manager.sh"
+cmd = "~/.config/scripts/network_manager.sh"
 
 [[block]]
 block = "custom"

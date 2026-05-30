@@ -53,15 +53,16 @@
         "format-ethernet": "󰈀",
         "format-disconnected": "",
         "tooltip-format": "{ipaddr}/{cidr}",
-        "on-click": "~/.config/sway/scripts/show_notification.sh wifi enp6s0"
+        "on-click": "~/.config/scripts/show_notification.sh wifi enp6s0"
     },
 
     "network#wifi": {
         "interface": "wlan0",
         "format-wifi": "󰖩",
-        "format-disconnected": "",
+        "format-disconnected": "󰖪",
+        "tooltip-format-disconnected": "Disconnected — click to connect",
         "tooltip-format": "{essid} ({signalStrength}%)",
-        "on-click": "~/.config/sway/scripts/network_manager.sh"
+        "on-click": "~/.config/scripts/network_manager.sh"
     },
 
     "bluetooth": {
