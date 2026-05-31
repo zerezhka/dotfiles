@@ -79,6 +79,7 @@
     "network#ethernet": {
         "interface": "enp6s0",
         "format-ethernet": "󰈀 ↑{bandwidthUpBytes} ↓{bandwidthDownBytes}",
+        "format-linked": "󰈀 ↑{bandwidthUpBytes} ↓{bandwidthDownBytes}",
         "format-disconnected": "",
         "tooltip-format": "{ipaddr}/{cidr}",
         "interval": 2
@@ -87,6 +88,7 @@
     "network#wifi": {
         "interface": "wlan0",
         "format-wifi": "󰖩 {essid} ↑{bandwidthUpBytes} ↓{bandwidthDownBytes}",
+        "format-linked": "󰖩 ↑{bandwidthUpBytes} ↓{bandwidthDownBytes}",
         "format-disconnected": "󰖪",
         "tooltip-format-disconnected": "Disconnected — click to connect",
         "tooltip-format": "{essid} ({signalStrength}%)",

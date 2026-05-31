@@ -51,6 +51,7 @@
     "network#ethernet": {
         "interface": "enp6s0",
         "format-ethernet": "󰈀",
+        "format-linked": "󰈀",
         "format-disconnected": "",
         "tooltip-format": "{ipaddr}/{cidr}",
         "on-click": "~/.config/scripts/show_notification.sh wifi enp6s0"
@@ -59,6 +60,7 @@
     "network#wifi": {
         "interface": "wlan0",
         "format-wifi": "󰖩",
+        "format-linked": "󰖩",
         "format-disconnected": "󰖪",
         "tooltip-format-disconnected": "Disconnected — click to connect",
         "tooltip-format": "{essid} ({signalStrength}%)",
