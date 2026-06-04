@@ -10,5 +10,6 @@
     "gopls-lsp@claude-plugins-official": true
   },
   "effortLevel": "medium",
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "spinnerTipsEnabled": false
 }
