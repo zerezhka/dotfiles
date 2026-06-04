@@ -1,0 +1,36 @@
+#!/bin/bash
+# Manual screensaver -> lock, macOS-style. Bound to Mod+Shift+L.
+#
+# Shows flux across all monitors as the "grace" window (flux self-exits on any
+# key/mouse input):
+#   - dismissed within GRACE seconds      -> back to desktop, no password
+#   - untouched for GRACE seconds (gone)  -> hyprlock, password required now
+#
+# This mirrors hyprlock's own `grace`, but with flux as the visual instead of the
+# static blurred background. hyprlock is then started with `--grace 0`, so there's
+# no second no-password window after flux already provided one.
+
+GRACE=5
+
+# Avoid stacking with an idle-launched instance.
+pkill -x flux-desktop 2>/dev/null
+
+flux-desktop &
+flux_pid=$!
+
+# Settle: confirm flux actually came up. If it dies immediately it failed to
+# start -> fail secure and lock rather than silently doing nothing.
+sleep 0.4
+if ! kill -0 "$flux_pid" 2>/dev/null; then
+    exec hyprlock --grace 0
+fi
+
+# Watch the rest of the grace window. Any input makes flux exit -> back to desktop.
+for _ in $(seq 1 $((GRACE * 10))); do
+    kill -0 "$flux_pid" 2>/dev/null || exit 0
+    sleep 0.1
+done
+
+# Untouched through the grace window -> lock immediately.
+kill -TERM "$flux_pid" 2>/dev/null
+exec hyprlock --grace 0

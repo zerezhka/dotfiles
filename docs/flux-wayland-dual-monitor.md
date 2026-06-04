@@ -1,72 +1,91 @@
-# Flux (Drift-like screensaver) on Wayland/Hyprland — dual monitor “span”
+# Flux (Drift-like screensaver) on Wayland/Hyprland — dual-monitor span
 
-You have Flux sources/builds in:
-- `~/Projects/flux/` (Rust + wgpu)
-- In dotfiles there are helper binaries:
-  - `~/Projects/dotfiles/.local/bin/flux-desktop`
-  - `~/Projects/dotfiles/.local/bin/flux-with-blur`
+**Status: implemented natively.** Flux now renders **one continuous fluid
+simulation across both monitors** via `wlr-layer-shell`. The streams flow
+seamlessly across the seam — it is *not* two independent instances anymore.
 
-## Reality check: Wayland doesn’t do “one window across 2 monitors” reliably
-On X11 you can treat multi-monitor as one big coordinate space and just make a 3840x1080 window.
-On Wayland the compositor owns outputs; most apps can’t request “span both outputs” in a portable way.
+Sources/build:
+- `~/Projects/flux/` (Rust + wgpu) — the runner lives in `flux-desktop/src/wayland.rs`
+- Deployed binary: `~/Projects/dotfiles/.local/bin/flux-desktop`
+  (symlinked to `~/.local/bin/flux-desktop`)
 
-**Pragmatic approach:** run **two fullscreen instances**, one per output.
-Visually it’s “stretched”, even though technically it’s two surfaces.
+## How it works
 
-## Recommended: two instances (one per monitor)
-### 1) Get output names
+`flux-desktop` detects a Wayland session (`WAYLAND_DISPLAY`) and runs a
+Wayland-native layer-shell runner (falls back to a winit window on X11/macOS/Windows):
+
+1. Enumerates all outputs and computes the **union bounding box** of every monitor
+   (e.g. two 1920×1080 side-by-side → one 3840×1080 virtual canvas).
+2. Creates one `Layer::Overlay` surface **per output**, each covering its whole screen.
+3. Builds a single `Flux` simulation sized to the union. Each frame it does one
+   `compute()` step, then renders each output with its own `ScreenViewport` slice
+   (its physical rect within the union). Because every output samples the *same*
+   simulation, the fluid is continuous across the gap.
+4. Exits on **any keyboard or pointer input** (screensaver behaviour), and on
+   `SIGTERM`/`SIGINT` (so `pkill` / hypridle always kill it instantly).
+
+No Hyprland `windowrule` placement is needed — layer-shell binds each surface to
+its output directly.
+
+> Why the old "two independent instances / blur the inactive screen" workaround is
+> gone: that existed because a single winit window can't span outputs on Wayland.
+> The layer-shell runner sidesteps it by drawing one surface per output from a
+> shared simulation. `~/.local/bin/flux-with-blur` is now obsolete.
+
+## Run it manually
+
 ```bash
-hyprctl monitors
-```
-You’ll see names like `HDMI-A-1`, `HDMI-A-2`.
-
-### 2) Start Flux twice
-Flux needs a display session (Wayland). Run from a Hyprland terminal.
-
-Example (replace paths/output mapping with your real ones):
-
-```bash
-# Stop previous runs
-pkill -x flux-desktop 2>/dev/null || true
-
-# Left monitor
-env WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
-  WLR_DRM_DEVICES="$WLR_DRM_DEVICES" \
-  flux-desktop --fullscreen --output HDMI-A-2 &
-
-# Right monitor
-env WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
-  WLR_DRM_DEVICES="$WLR_DRM_DEVICES" \
-  flux-desktop --fullscreen --output HDMI-A-1 &
+flux-desktop          # spans all monitors; press any key / move mouse to exit
 ```
 
-Notes:
-- The actual flags depend on how your `flux-desktop` wrapper is built. If it doesn’t support `--output`, you can still do it by using Hyprland window rules (see below).
+## Screensaver wiring (hypridle)
 
-## If Flux cannot target outputs: use Hyprland window rules
-If Flux is “just a normal window”, you can force placement/fullscreen per monitor.
+`~/.config/hypr/hypridle.conf` chains it as a pre-lock screensaver and kills it on
+every lock path so it never runs hidden behind hyprlock:
 
-In `~/.config/hypr/hyprland.conf` add rules (example):
 ```ini
-# Put Flux on left monitor
-windowrule = monitor HDMI-A-2, class:^(flux)$
-# or title match if class differs
-# windowrule = monitor HDMI-A-2, title:^(Flux)$
+general {
+    lock_cmd = pkill -9 flux-desktop; hyprlock
+    before_sleep_cmd = pkill -9 flux-desktop; hyprlock
+}
 
-# Make it fullscreen (or maximize)
-windowrule = fullscreen, class:^(flux)$
+listener {            # 5 min: flux screensaver
+    timeout = 300
+    on-timeout = ~/.local/bin/flux-desktop
+    on-resume = pkill -9 flux-desktop
+}
+listener {            # 15 min: lock (flux killed first)
+    timeout = 900
+    on-timeout = pkill -9 flux-desktop; hyprlock
+}
+listener {            # 45 min: screens off
+    timeout = 2700
+    on-timeout = hyprctl dispatch dpms off
+    on-resume = hyprctl dispatch dpms on
+}
 ```
 
-Then run two instances and Hyprland will place them.
+Apply changes: `systemctl --user restart hypridle` (or `pkill hypridle; hypridle &`).
 
-## Making it look like one continuous wide animation
-If you want a *true continuous* look across both screens:
-- Render Flux at 3840x1080 (or your combined resolution)
-- Split/crop into two views (left/right) and feed each instance a different viewport
+## Lock-screen / SDDM note
 
-This requires Flux to support viewport/camera offsets. If it doesn’t, easiest is to accept “two identical but independent” instances.
+Flux **cannot** draw on top of hyprlock or the SDDM greeter — both deliberately
+suppress all other surfaces (`ext-session-lock-v1` / a separate greeter compositor).
+So flux is a *pre-lock* screensaver only. To animate *behind* a password prompt you'd
+have to build a dedicated `ext-session-lock-v1` locker (flux background + PAM auth),
+which is a separate project.
+
+## Updating the deployed binary
+
+After rebuilding flux:
+```bash
+cargo build --release -p flux-desktop          # in ~/Projects/flux
+cp ~/Projects/flux/target/release/flux-desktop ~/Projects/dotfiles/.local/bin/flux-desktop
+```
 
 ## Troubleshooting
-- If one monitor stays black: check the output name from `hyprctl monitors`.
-- If it launches on the wrong monitor: add explicit Hyprland `windowrule = monitor ...`.
-- For testing stability: running Flux + NVMe IO can increase chance of reproducing hangs.
+
+- Stuck process: `pkill -9 flux-desktop` (or `SIGTERM` — it handles both).
+- Mixed per-monitor scale factors are approximate; matched-resolution pairs are exact.
+- One monitor black: check `hyprctl monitors`; the log prints the per-output viewport
+  mapping (`Output N: ... vp=ScreenViewport { ... }`).
