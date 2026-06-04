@@ -1,13 +1,14 @@
 {
+  "model": "opus",
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline-command.sh",
     "padding": 0
   },
   "enabledPlugins": {
-    "ralph-loop@claude-plugins-official": true
+    "ralph-loop@claude-plugins-official": false,
+    "gopls-lsp@claude-plugins-official": true
   },
   "effortLevel": "medium",
-  "skipAutoPermissionPrompt": true,
-  "model": "opus"
+  "skipAutoPermissionPrompt": true
 }
