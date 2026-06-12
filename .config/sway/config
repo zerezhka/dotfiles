@@ -152,8 +152,8 @@ for_window [app_id="flux"] fullscreen enable
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 # Clipboard manager - persist clipboard content
-exec_always sh -c 'pkill -f "wl-paste.*cliphist" 2>/dev/null; wl-paste --type text --watch cliphist store'
-exec_always sh -c 'pkill -f "wl-paste.*cliphist" 2>/dev/null; wl-paste --type image --watch cliphist store'
+# Single exec so the pkill doesn't race against a sibling watcher
+exec_always sh -c 'pkill -f "wl-paste.*cliphist" 2>/dev/null; wl-paste --type text --watch cliphist store & wl-paste --type image --watch cliphist store &'
 
 # Whisper voice input (toggle record/transcribe)
 bindsym --to-code $mod+Shift+t exec ~/.local/bin/whisper-input
