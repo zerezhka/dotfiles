@@ -17,6 +17,7 @@ bind
 blueman
 bluez
 bluez-utils
+boost
 btrfs-progs
 bubblewrap
 cantarell-fonts
@@ -42,6 +43,7 @@ docker
 docker-buildx
 docker-compose
 dosfstools
+dotnet-sdk
 downgrade
 dracut
 duf
@@ -83,6 +85,7 @@ foomatic-db-nonfree-ppds
 foomatic-db-ppds
 fuse-overlayfs
 galculator
+gamescope
 garcon
 gemini-cli
 ghostscript
@@ -90,9 +93,12 @@ gimp
 git
 git-lfs
 glances
+glib2-devel
 glmark2
 go
+gobject-introspection
 gparted
+gperf
 gpgme
 gradle
 grim
@@ -128,6 +134,7 @@ i3status
 i3status-rust
 inetutils
 intel-ucode
+intellij-idea-community-edition
 intltool
 inxi
 iptables
@@ -148,6 +155,7 @@ libksba
 libmaxminddb
 libopenraw
 libreoffice-still
+libtg_owt
 libvirt
 libwnck3
 linux
@@ -172,6 +180,7 @@ logrotate
 lsb-release
 lsscsi
 luajit
+lutris
 lvm2
 lxappearance
 man-db
@@ -183,6 +192,7 @@ memtester
 mesa-demos
 mesa-utils
 meson
+microsoft-gsl
 modemmanager
 mousepad
 msitools
@@ -223,6 +233,7 @@ otf-libertinus
 pacman-contrib
 pandoc-cli
 pavucontrol
+perf
 perl
 picom
 pipewire-alsa
@@ -248,6 +259,7 @@ python-pytest
 python-reportlab
 python-requests
 qemu-full
+range-v3
 rebuild-detector
 reflector
 reflector-simple
@@ -269,6 +281,7 @@ shaderc
 slurp
 smartmontools
 sof-firmware
+spirv-headers
 spirv-tools
 sshfs
 steam
@@ -280,6 +293,7 @@ swayidle
 sysfsutils
 system-config-printer
 systemd-sysvcompat
+tcpdump
 telegram-desktop
 tex-gyre-fonts
 texinfo
@@ -293,6 +307,7 @@ thunar-archive-plugin
 thunar-media-tags-plugin
 thunar-volman
 tk
+tl-expected
 tldr
 transmission-qt
 ttc-iosevka
@@ -321,6 +336,7 @@ welcome
 wget
 which
 wine
+winetricks
 wireplumber
 wl-clipboard
 woff2-font-awesome
@@ -370,6 +386,7 @@ xorg-xwayland
 xscreensaver
 xterm
 yay
+zig
 zip
 zram-generator
 zsh

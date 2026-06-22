@@ -17,6 +17,7 @@ i3-swallow-git
 jai-bin
 k6
 mediawriter
+mprime-bin
 neofetch
 parsec-bin
 portainer-lts-bin
@@ -26,11 +27,14 @@ python-docx
 python-docx2txt
 python311
 python313
+rasdaemon
 ruby-fusuma
+ryzen_smu-dkms-git
 ryzenadj
 sddm-sugar-candy-git
 sing-geoip-db
 splix
+stressapptest
 swaylock-effects
 throne-bin
 unityhub
