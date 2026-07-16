@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Attach to (or create) a per-project tmux session.
+# 1 tmux session = 1 project. Windows: nvim / server / logs / git.
+#
+# Usage:
+#   tmux-project <project-name> [path-to-project]
+#
+# If [path] is omitted, defaults to ~/Projects/<project-name>.
+# Session name is the project name with dots replaced by underscores
+# (tmux uses '.' internally as a separator).
+
+set -euo pipefail
+
+name="${1:-}"
+if [[ -z "$name" ]]; then
+    echo "usage: tmux-project <project-name> [path]" >&2
+    exit 1
+fi
+
+path="${2:-$HOME/Projects/$name}"
+session="${name//./_}"
+
+if [[ ! -d "$path" ]]; then
+    echo "tmux-project: no such directory: $path" >&2
+    exit 1
+fi
+
+if ! tmux has-session -t "=$session" 2>/dev/null; then
+    tmux new-session -d -s "$session" -n 1-nvim -c "$path"
+    tmux send-keys -t "$session:1-nvim" "nvim ." C-m
+    tmux new-window -t "$session" -n 2-server -c "$path"
+    tmux new-window -t "$session" -n 3-logs -c "$path"
+    tmux new-window -t "$session" -n 4-git -c "$path"
+    tmux select-window -t "$session:1-nvim"
+fi
+
+if [[ -n "${TMUX:-}" ]]; then
+    tmux switch-client -t "$session"
+else
+    tmux attach-session -t "$session"
+fi

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# fzf picker over existing tmux sessions + project directories under
+# ~/Projects. Picking an existing session switches/attaches to it;
+# picking a directory hands off to tmux-project to create/attach.
+
+set -euo pipefail
+
+existing=$(tmux list-sessions -F '#S' 2>/dev/null || true)
+projects=$(find "$HOME/Projects" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' 2>/dev/null)
+
+choice=$(printf '%s\n%s\n' "$existing" "$projects" | sort -u | grep -v '^$' | fzf --prompt="project/session > ")
+
+[[ -z "$choice" ]] && exit 0
+
+exec "$(dirname "$0")/tmux-project" "$choice"

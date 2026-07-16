@@ -309,6 +309,7 @@ thunar-volman
 tk
 tl-expected
 tldr
+tmux
 transmission-qt
 ttc-iosevka
 ttf-bitstream-vera

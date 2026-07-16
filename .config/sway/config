@@ -38,6 +38,8 @@ exec systemctl --user start lock-keys-notify.service
 exec_always sh -c 'pkill swaybg; sleep 0.1; swaybg -m fill -i /usr/share/backgrounds/xfce/red_moon_penger.jpg &'
 
 bindsym $mod+Return exec alacritty
+# tmux project session launcher (fzf picker over sessions/~/Projects)
+bindsym --to-code $mod+Shift+Return exec alacritty --class tmux-sessionizer -e ~/.local/bin/tmux-sessionizer
 
 bindsym --to-code $mod+Shift+q kill
 

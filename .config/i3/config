@@ -36,6 +36,8 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec alacritty
+# tmux project session launcher (fzf picker over sessions/~/Projects)
+bindsym $mod+Shift+Return exec alacritty --class tmux-sessionizer -e ~/.local/bin/tmux-sessionizer
 
 bindsym $mod+Shift+s exec sh -c 'xfce4-screenshooter -r -c && notify-send "Screenshot saved to clipboard"'
 bindsym Print exec sh -c 'notify-send "Screenshot in 3 seconds..." && sleep 3 && xfce4-screenshooter -f -s /tmp/screenshot.png && notify-send "Screenshot saved to /tmp/screenshot.png"'

@@ -119,6 +119,7 @@ ROOT_DOTFILES=(
     ".xprofile"
     ".Xresources"
     ".vimrc"
+    ".tmux.conf"
     ".emacs"
     ".emacs.custom.el"
     ".emacs.local"
