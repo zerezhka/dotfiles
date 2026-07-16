@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Attach to (or create) a per-project tmux session.
-# 1 tmux session = 1 project. Windows: nvim / server / logs / git.
+# 1 tmux session = 1 project. Windows: vim / server / logs / git.
 #
 # Usage:
 #   tmux-project <project-name> [path-to-project]
@@ -26,12 +26,12 @@ if [[ ! -d "$path" ]]; then
 fi
 
 if ! tmux has-session -t "=$session" 2>/dev/null; then
-    tmux new-session -d -s "$session" -n 1-nvim -c "$path"
-    tmux send-keys -t "$session:1-nvim" "nvim ." C-m
+    tmux new-session -d -s "$session" -n 1-vim -c "$path"
+    tmux send-keys -t "$session:1-vim" "vim ." C-m
     tmux new-window -t "$session" -n 2-server -c "$path"
     tmux new-window -t "$session" -n 3-logs -c "$path"
     tmux new-window -t "$session" -n 4-git -c "$path"
-    tmux select-window -t "$session:1-nvim"
+    tmux select-window -t "$session:1-vim"
 fi
 
 if [[ -n "${TMUX:-}" ]]; then
