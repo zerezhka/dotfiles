@@ -21,6 +21,15 @@ Both environments share similar keybindings and workflow but have environment-sp
 - Background: `feh` (i3) vs `swaybg` (Sway)
 - Status bar: Both use `i3status-rust` with separate config files
 
+### Screen Sharing (Sway/Wayland)
+
+`.config/xdg-desktop-portal/portals.conf` fixes screen sharing (e.g. Google Meet in Chromium/Firefox) under Sway. It pins `ScreenCast` and `Screenshot` to the `wlr` portal backend (default otherwise resolves to `gtk`, which doesn't support screen capture on wlroots compositors) and sets `Inhibit=none` so idle-inhibit falls through to Sway's native Wayland protocol instead of `xdg-desktop-portal-gtk`'s unsupported `org.freedesktop.ScreenSaver`.
+
+After deploying this file, apply it with:
+```bash
+systemctl --user restart xdg-desktop-portal xdg-desktop-portal-wlr
+```
+
 ### Environment Configuration
 
 Environment variables are managed in multiple locations for different session types:
