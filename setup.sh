@@ -91,6 +91,7 @@ ROOT_DOTFILES=(
     ".emacs.custom.el"
     ".emacs.local"
     ".emacs.rc"
+    ".vimrc"
 )
 
 echo ""
